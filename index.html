@@ -1,47 +1,284 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>animation</title>
 </head>
 <style>
+    @font-face {
+        font-family: 'HeirofLightRegular';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightRegular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'HeirofLightBold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightBold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
 
-@font-face {
-    font-family: 'HeirofLightRegular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightRegular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
-@font-face {
-    font-family: 'HeirofLightBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+    li {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    img {
+        vertical-align: top;
+    }
+
+    body {
+        font-family: 'HeirofLightRegular';
+        overflow: hidden;
+    }
+
+    .wrap {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .bg_box .bg1 .img1 {
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: scale(1.2);
+        animation: bgani 5s ease-out forwards;
+    }
+
+    @keyframes bgani {
+        0% {
+            transform: scale(1.1);
+            filter: brightness(0.4);
+        }
+
+        100% {
+            transform: scale(1);
+            filter: brightness(0.9);
+        }
+    }
+
+    .bg_box .bg1 .img2 {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 3;
+        opacity: 0;
+        animation: forestReveal 2s ease-out 0.2s forwards;
+
+    }
+
+    @keyframes forestReveal {
+        0% {
+            opacity: 0;
+            /* 100px 정도 밑에서 시작하지만, 마스크 덕분에 윗선이 안 보입니다 */
+            transform: translateY(100px) scale(1.1);
+            filter: blur(10px);
+            /* 처음에 살짝 흐릿하게 시작하면 더 몽환적입니다 */
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    .bg_box .bg1 .img3 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 2;
+        /* 숲(3)보다는 뒤, 배경(1)보다는 앞 */
+
+        /* [수정] 시작 상태: 투명하고 약간 아래에 위치 */
+        opacity: 0;
+        transform: translateY(30px) scale(1.1);
+
+        animation: minicloud 5s ease-out 0.5s forwards;
+    }
+
+    @keyframes minicloud {
+        0% {
+            opacity: 0;
+            transform: translateY(30px) scale(1.1);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .bg_box .bg1 .img4 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1;
+        mix-blend-mode: screen;
+
+        /* [수정] 애니메이션 0%와 완벽히 일치시키기 */
+        opacity: 0;
+        transform: scale(1.3) translate(-10%, 20%);
+
+        animation: moonRiseCurve 7s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards,
+            moonGlow 2s ease-in-out 6s infinite alternate;
+    }
+
+    /* 곡선 궤적 애니메이션 */
+    @keyframes moonRiseCurve {
+        0% {
+            /* 시작 지점: 크기는 1.3 고정, 왼쪽 아래에서 출발 */
+            transform: scale(1.3) translate(-10%, 20%);
+            opacity: 0;
+            filter: brightness(0.5);
+        }
+
+        50% {
+            opacity: 0.8;
+        }
+
+        100% {
+            /* 도착 지점: 크기는 1.3 고정, 제자리에 안착 */
+            transform: scale(1.3) translate(0%, 5%);
+            opacity: 1;
+            filter: brightness(1);
+        }
+    }
+
+    /* 달이 제자리에서 계속 빛나는 효과 */
+    @keyframes moonGlow {
+        0% {
+            filter: brightness(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        100% {
+            filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 255, 255, 0.7));
+        }
+    }
+
+    /* 텍스트 뒤 별똥별 레이어 (.img6) */
+    .bg_box .bg1 .img5 {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        /* 텍스트(.textbox)랑 완벽하게 똑같은 정중앙 위치 */
+        width: 1200px;
+        /* 텍스트를 덮을 만큼 넉넉한 크기 */
+        height: auto;
+        z-index: 300;
+        /* 텍스트(400) 바로 뒤, 숲(3)보다는 앞! */
+        mix-blend-mode: screen;
+        filter: contrast(2) brightness(0.8);
+        opacity: 0;
+
+        animation: starWipe 7s ease-out 2.2s forwards,
+        twinkle 4s ease-in-out 9.2s infinite alternate;
+    }
+
+    /* 왼쪽에서 오른쪽으로 열리는 효과 */
+    @keyframes starWipe {
+        0% {
+            opacity: 0;
+            clip-path: inset(0 100% 0 0);
+            /* 오른쪽을 100% 가림 (왼쪽 끝만 남음) */
+        }
+
+        30% {
+            opacity: 1;
+            /* 투명도부터 먼저 선명해짐 */
+        }
+
+        100% {
+            opacity: 1;
+            clip-path: inset(0 0 0 0);
+            /* 가림막을 다 치워서 왼쪽 -> 오른쪽으로 샤라락 등장 */
+        }
+    }
 
 
-    *{margin: 0; padding: 0;}
-    li {list-style: none;}
-    a {text-decoration: none; color: #fff;}
-    img {vertical-align: top;}
+    .bg_box .bg1 img {
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+    }
 
-    body {font-family: 'HeirofLightRegular';}
+    header {
+        position: absolute;
+        max-width: 1400px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        z-index: 1000;
+    }
 
-    .bg_box .bg1 img {width: 100%; height: 100vh; object-fit: cover;}
-    header {position: absolute; max-width: 1400px; left: 50%; transform: translateX(-50%);
-    display: flex; justify-content: space-between; width: 100%;}
-    header h1 {width: 100px;}
-    header h1 img {width: 100%;}
-    header nav .gnb {display: flex;}
-    header nav .gnb li {font-size: 22px; transition: 0.25s; text-shadow: 0 0 5px rgba(0, 0, 0, 1);}
-    header nav .gnb li a {color: #e4e4e4; display: flex; padding: 10px 30px;}
+    header h1 {
+        width: 100px;
+    }
 
-    header nav .gnb:hover li{transform: scale(0.9); opacity: 0.7;}
-    header nav .gnb li:hover{transform: scale(1.1); opacity: 1;}
-    header nav .gnb li:hover a{color: #fff;}
+    header h1 img {
+        width: 100%;
+    }
+
+    header nav .gnb {
+        display: flex;
+    }
+
+    header nav .gnb li {
+        font-size: 22px;
+        transition: 0.25s;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+    }
+
+    header nav .gnb li a {
+        color: #e4e4e4;
+        display: flex;
+        padding: 10px 30px;
+    }
+
+    header nav .gnb:hover li {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+
+    header nav .gnb li:hover {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    header nav .gnb li:hover a {
+        color: #fff;
+    }
+
     /* audio{display: none;} */
 
 
@@ -73,117 +310,187 @@
 
 
     .textbox {
-        position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); 
-        text-align: center; z-index: 10; width: 100%;}
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 400;
+        width: 100%;
+    }
 
     .textbox ul {
         display: flex;
-        flex-direction: column; /* 문장을 위아래로 배치 */
-        gap: 10px; /* 문장 사이의 수직 간격 */
+        flex-direction: column;
+        /* 문장을 위아래로 배치 */
+        gap: 10px;
+        /* 문장 사이의 수직 간격 */
     }
 
     .textbox li {
-        font-size: 72px; color: #fff; display: flex; justify-content: center; flex-direction: row;
-        letter-spacing: 5px; /* 기본 자간 */
+        font-size: 72px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        letter-spacing: 5px;
+        /* 기본 자간 */
     }
 
     .textbox li span {
-        display: block; 
-        opacity: 0; /* 처음엔 안 보임 */
-        filter: blur(10px); /* 살짝 흐릿하게 시작 (선택 사항) */
-        animation: appear 1.5s ease-out forwards; /* 사라락 나타나는 애니메이션 */
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 
-                 0 0 20px rgba(255, 255, 255, 0.3);
+        display: block;
+        opacity: 0;
+        /* 처음엔 안 보임 */
+        filter: blur(10px);
+        /* 살짝 흐릿하게 시작 (선택 사항) */
+        animation: appear 5s ease-out forwards;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+            0 0 20px rgba(255, 255, 255, 0.3);
     }
 
-    .textbox li .mb { margin-right: 20px; } /* 띄어쓰기 간격 */
+    .textbox li .mb {
+        margin-right: 20px;
+    }
+
+    /* 띄어쓰기 간격 */
 
     /* [2] 사라락 나타나는 효과 (핵심) */
     @keyframes appear {
         0% {
             opacity: 0;
             filter: blur(10px);
-            transform: scale(1.1); /* 살짝 커졌다가 제자리로 */
-            letter-spacing: 20px; /* 글자 사이가 넓게 시작 */
+            transform: scale(1.1);
+            /* 살짝 커졌다가 제자리로 */
+            letter-spacing: 20px;
+            /* 글자 사이가 넓게 시작 */
         }
+
         100% {
             opacity: 1;
             filter: blur(0);
             transform: scale(1);
-            letter-spacing: 5px; /* 원래 간격으로 복귀 */
+            letter-spacing: 5px;
+            /* 원래 간격으로 복귀 */
         }
     }
 
     /* [3] 글자별 지연 시간 (딜레이) */
     /* 첫 번째 문장 */
-    .textbox li:nth-child(1) span:nth-child(1) { animation-delay: 0.1s; }
-    .textbox li:nth-child(1) span:nth-child(2) { animation-delay: 0.2s; }
-    .textbox li:nth-child(1) span:nth-child(3) { animation-delay: 0.3s; }
-    .textbox li:nth-child(1) span:nth-child(4) { animation-delay: 0.4s; }
-    .textbox li:nth-child(1) span:nth-child(5) { animation-delay: 0.5s; }
-    .textbox li:nth-child(1) span:nth-child(6) { animation-delay: 0.6s; }
-    .textbox li:nth-child(1) span:nth-child(7) { animation-delay: 0.7s; }
-    .textbox li:nth-child(1) span:nth-child(8) { animation-delay: 0.8s; }
-
-    /* 두 번째 문장 (첫 문장이 거의 다 나온 뒤 시작) */
-    .textbox li:nth-child(2) span:nth-child(1) { animation-delay: 1.2s; }
-    .textbox li:nth-child(2) span:nth-child(2) { animation-delay: 1.3s; }
-    .textbox li:nth-child(2) span:nth-child(3) { animation-delay: 1.4s; }
-    .textbox li:nth-child(2) span:nth-child(4) { animation-delay: 1.5s; }
-    .textbox li:nth-child(2) span:nth-child(5) { animation-delay: 1.6s; }
-
-    .right_box > div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url(img/jiwon_star.png);
-        background-position: center;
-        mix-blend-mode: screen; /* 검은 배경 제거 */
+    .textbox li:nth-child(1) span:nth-child(1) {
+        animation-delay: 1.5s;
     }
 
-   .right1 {
-    opacity: 0.3; mix-blend-mode: screen;
-    animation: shine1 4s infinite alternate;
+    .textbox li:nth-child(1) span:nth-child(2) {
+        animation-delay: 1.6s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(3) {
+        animation-delay: 1.7s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(4) {
+        animation-delay: 1.8s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(5) {
+        animation-delay: 1.9s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(6) {
+        animation-delay: 2.0s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(7) {
+        animation-delay: 2.1s;
+    }
+
+    .textbox li:nth-child(1) span:nth-child(8) {
+        animation-delay: 2.2s;
+    }
+
+    /* 두 번째 문장 (첫 문장이 거의 다 나온 뒤 시작) */
+    .textbox li:nth-child(2) span:nth-child(1) {
+        animation-delay: 2.3s;
+    }
+
+    .textbox li:nth-child(2) span:nth-child(2) {
+        animation-delay: 2.4s;
+    }
+
+    .textbox li:nth-child(2) span:nth-child(3) {
+        animation-delay: 2.5s;
+    }
+
+    .textbox li:nth-child(2) span:nth-child(4) {
+        animation-delay: 2.6s;
+    }
+
+    .textbox li:nth-child(2) span:nth-child(5) {
+        animation-delay: 2.7s;
+    }
+
+    /* 1. 별들을 감싸는 부모 박스 */
+.right_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 300;
+    pointer-events: none; /* 클릭 방해 금지 */
+    overflow: hidden;
+    mix-blend-mode: screen;
 }
 
- .right2 {
-    opacity: 0.5; mix-blend-mode: screen;
-    /* 시간을 다르게 하고, 살짝 회전시켜서 이미지가 겹치지 않게 합니다 */
-    transform: rotate(45deg) scale(1.1);
-    animation: shine2 6s infinite alternate-reverse;
+.right_box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    mix-blend-mode: screen;
+    opacity: 0;
 }
 
- .right3 {
-    opacity: 0.2; mix-blend-mode: screen;
-    transform: rotate(90deg) scale(1.2);
-    animation: shine3 8s infinite linear;
-}
-    
-
-    @keyframes shine1 {
-    0% { opacity: 0.3; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.05); }
+/* 개별 별 레이어 애니메이션 (휙 튀어나오는 현상 제거) */
+.star1 {
+    /* 3초 뒤에 아주 천천히(5s) 스르륵 나타나서 깜빡임 */
+    animation: shine1 5s ease-in-out 4.0s infinite alternate;
 }
 
-    @keyframes shine2 {
-    0% { opacity: 0.3; transform: rotate(45deg) scale(1.1); }
-    100% { opacity: 0.8; transform: rotate(50deg) scale(1.15); }
+.star2 {
+    transform: rotate(45deg);
+    /* reverse 빼고 alternate로 통일, 4초 뒤에 스르륵 나타남 */
+    animation: shine2 6s ease-in-out 5.0s infinite alternate; 
 }
 
-    @keyframes shine3 {
-    0% { filter: brightness(1); transform: rotate(90deg) scale(1.2); }
-    100% { filter: brightness(1.5); transform: rotate(95deg) scale(1.25); }
+.star3 {
+    transform: rotate(90deg);
+    /* linear 빼고 ease-in-out 추가! 5초 뒤에 천천히 나타남 */
+    animation: shine3 7s ease-in-out 6.0s infinite alternate; 
 }
 
-    @keyframes twinkle {
-    0% { opacity: 0.5; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.05); }
+/* 4. 애니메이션 효과 (멀미 방지 + 부드러운 투명도 조절) */
+@keyframes shine1 {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
+@keyframes shine2 {
+    0% { opacity: 0; transform: rotate(45deg); }
+    100% { opacity: 0.8; transform: rotate(45deg); }
+}
 
+@keyframes shine3 {
+    0% { filter: brightness(1); transform: rotate(90deg); opacity: 0; }
+    100% { filter: brightness(1.5); transform: rotate(90deg); opacity: 1; }
+}
+    audio {
+        display: none;
+    }
 </style>
+
 <body>
     <div class="wrap">
         <header>
@@ -207,7 +514,7 @@
                     <span>밤</span>
                     <span class="mb">이</span>
 
-                    <span class="mb">써</span> 
+                    <span class="mb">써</span>
 
                     <span>내</span>
                     <span>려</span>
@@ -226,15 +533,24 @@
 
         <div class="bg_box">
             <div class="bg1">
-<!--                 <img src="img/background.png" alt=""> -->
-                <img src="img/jiwon_bg.png" alt="">
+                <!--                 <img src="img/background.png" alt=""> -->
+                <img src="img/background.png" alt="" class="img1">
+                <img src="img/forest.png" alt="" class="img2">
+                <img src="img/minicloud.png" alt="" class="img3">
+                <img src="img/moon.png" alt="" class="img4">
+                <img src="img/jiwon_star2.png" alt="" class="img5">
+                <div class="right_box">
+                    <img src="img/jiwon_star.png" alt="" class="star1">
+                    <img src="img/jiwon_star.png" alt="" class="star2">
+                    <img src="img/jiwon_star.png" alt="" class="star3">
+                    <!-- <div class="right1"></div>
+                    <div class="right2"></div>
+                    <div class="right3"></div> -->
+                </div>
             </div>
         </div>
-        <div class="right_box">
-            <div class="right1"></div>
-            <div class="right2"></div>
-            <div class="right3"></div>
-        </div>
+
     </div>
 </body>
+
 </html>
