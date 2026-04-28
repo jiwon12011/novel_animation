@@ -21,7 +21,6 @@
         font-style: normal;
     }
 
-
     * {
         margin: 0;
         padding: 0;
@@ -52,6 +51,31 @@
         overflow: hidden;
     }
 
+    /* 시네마틱 비네트 */
+    .wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center,
+            transparent 50%,
+            rgba(0, 0, 0, 0.45) 80%,
+            rgba(0, 0, 0, 0.75) 100%);
+        z-index: 350;
+        pointer-events: none;
+    }
+
+    /* 패럴랙스 래퍼 */
+    .parallax-layer {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+    }
+
+    .parallax-layer.text-parallax {
+        z-index: 400;
+    }
+
+    /* ─── 배경 레이어 ─── */
     .bg_box .bg1 .img1 {
         width: 100%;
         height: 100vh;
@@ -59,20 +83,14 @@
         position: absolute;
         left: 0;
         top: 0;
-        transform: scale(1.2);
+        transform: scale(1.1); /* 수정: 1.2→1.1, bgani 0%와 일치 */
+        will-change: transform, filter;
         animation: bgani 5s ease-out forwards;
     }
 
     @keyframes bgani {
-        0% {
-            transform: scale(1.1);
-            filter: brightness(0.4);
-        }
-
-        100% {
-            transform: scale(1);
-            filter: brightness(0.9);
-        }
+        0%   { transform: scale(1.1); filter: brightness(0.4); }
+        100% { transform: scale(1);   filter: brightness(0.9); }
     }
 
     .bg_box .bg1 .img2 {
@@ -84,19 +102,16 @@
         object-fit: cover;
         z-index: 3;
         opacity: 0;
+        will-change: transform, opacity, filter;
         animation: forestReveal 2s ease-out 0.2s forwards;
-
     }
 
     @keyframes forestReveal {
         0% {
             opacity: 0;
-            /* 100px 정도 밑에서 시작하지만, 마스크 덕분에 윗선이 안 보입니다 */
             transform: translateY(100px) scale(1.1);
             filter: blur(10px);
-            /* 처음에 살짝 흐릿하게 시작하면 더 몽환적입니다 */
         }
-
         100% {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -112,25 +127,21 @@
         height: 100vh;
         object-fit: cover;
         z-index: 2;
-        /* 숲(3)보다는 뒤, 배경(1)보다는 앞 */
-
-        /* [수정] 시작 상태: 투명하고 약간 아래에 위치 */
         opacity: 0;
         transform: translateY(30px) scale(1.1);
-
-        animation: minicloud 5s ease-out 0.5s forwards;
+        will-change: transform, opacity;
+        animation: minicloud 5s ease-out 0.5s forwards,
+                   cloudDrift 8s ease-in-out 5.5s infinite alternate;
     }
 
     @keyframes minicloud {
-        0% {
-            opacity: 0;
-            transform: translateY(30px) scale(1.1);
-        }
+        0%   { opacity: 0; transform: translateY(30px) scale(1.1); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
-        100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+    @keyframes cloudDrift {
+        0%   { transform: translateY(0) scale(1) translateX(0px); }
+        100% { transform: translateY(0) scale(1) translateX(15px); }
     }
 
     .bg_box .bg1 .img4 {
@@ -142,87 +153,64 @@
         object-fit: cover;
         z-index: 1;
         mix-blend-mode: screen;
-
-        /* [수정] 애니메이션 0%와 완벽히 일치시키기 */
         opacity: 0;
         transform: scale(1.3) translate(-10%, 20%);
-
+        will-change: transform, opacity, filter;
         animation: moonRiseCurve 7s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards,
-            moonGlow 2s ease-in-out 6s infinite alternate;
+                   moonGlow 2s ease-in-out 6s infinite alternate;
     }
 
-    /* 곡선 궤적 애니메이션 */
     @keyframes moonRiseCurve {
-        0% {
-            /* 시작 지점: 크기는 1.3 고정, 왼쪽 아래에서 출발 */
-            transform: scale(1.3) translate(-10%, 20%);
-            opacity: 0;
-            filter: brightness(0.5);
-        }
-
-        50% {
-            opacity: 0.8;
-        }
-
-        100% {
-            /* 도착 지점: 크기는 1.3 고정, 제자리에 안착 */
-            transform: scale(1.3) translate(0%, 5%);
-            opacity: 1;
-            filter: brightness(1);
-        }
+        0%  { transform: scale(1.3) translate(-10%, 20%); opacity: 0; filter: brightness(0.5); }
+        50% { opacity: 0.8; }
+        100%{ transform: scale(1.3) translate(0%, 5%);   opacity: 1; filter: brightness(1); }
     }
 
-    /* 달이 제자리에서 계속 빛나는 효과 */
     @keyframes moonGlow {
-        0% {
-            filter: brightness(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
-        }
-
-        100% {
-            filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 255, 255, 0.7));
-        }
+        0%   { filter: brightness(1)   drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+        100% { filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 255, 255, 0.7)); }
     }
 
-    /* 텍스트 뒤 별똥별 레이어 (.img6) */
     .bg_box .bg1 .img5 {
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        /* 텍스트(.textbox)랑 완벽하게 똑같은 정중앙 위치 */
         width: 1200px;
-        /* 텍스트를 덮을 만큼 넉넉한 크기 */
         height: auto;
         z-index: 300;
-        /* 텍스트(400) 바로 뒤, 숲(3)보다는 앞! */
         mix-blend-mode: screen;
         filter: contrast(2) brightness(0.8);
         opacity: 0;
-
+        will-change: clip-path, opacity;
         animation: starWipe 7s ease-out 2.2s forwards,
-        twinkle 4s ease-in-out 9.2s infinite alternate;
+                   twinkle 4s ease-in-out 9.2s infinite alternate;
     }
 
-    /* 왼쪽에서 오른쪽으로 열리는 효과 */
     @keyframes starWipe {
         0% {
             opacity: 0;
+            -webkit-clip-path: inset(0 100% 0 0);
             clip-path: inset(0 100% 0 0);
-            /* 오른쪽을 100% 가림 (왼쪽 끝만 남음) */
         }
-
-        30% {
-            opacity: 1;
-            /* 투명도부터 먼저 선명해짐 */
-        }
-
+        30% { opacity: 1; }
         100% {
             opacity: 1;
+            -webkit-clip-path: inset(0 0 0 0);
             clip-path: inset(0 0 0 0);
-            /* 가림막을 다 치워서 왼쪽 -> 오른쪽으로 샤라락 등장 */
         }
     }
 
+    @-webkit-keyframes starWipe {
+        0%   { opacity: 0; -webkit-clip-path: inset(0 100% 0 0); }
+        30%  { opacity: 1; }
+        100% { opacity: 1; -webkit-clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes twinkle {
+        0%   { filter: contrast(2) brightness(0.8); }
+        100% { filter: contrast(2) brightness(1.3); }
+    }
 
     .bg_box .bg1 img {
         width: 100%;
@@ -230,6 +218,7 @@
         object-fit: cover;
     }
 
+    /* ─── 헤더 ─── */
     header {
         position: absolute;
         max-width: 1400px;
@@ -237,8 +226,16 @@
         transform: translateX(-50%);
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         z-index: 1000;
+        opacity: 0;
+        animation: headerFade 1.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes headerFade {
+        0%   { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        100% { opacity: 1; transform: translateX(-50%) translateY(0px); }
     }
 
     header h1 {
@@ -279,36 +276,38 @@
         color: #fff;
     }
 
-    /* audio{display: none;} */
-
-
-    /* 수업에서 같이한 것 !!!! */
-    /* .textbox{border: 1px solid #000; position: absolute; 
-        left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center;}
-    .textbox ul{}
-    .textbox li{font-size: 40px; color: #fff; display: flex; justify-content: center; flex-direction: row;}
-    .textbox li span{display: block; animation: text 3s forwards; position: relative; opacity: 0;}
-    .textbox li .mb{margin-right: 20px;}
-
-
-    @keyframes text{
-        0%{left: -300px; transform: rotate(10deg) scale(0.3); top: 50px; opacity: 0;}
-
-        100%{left: 0; transform: rotate(0) scale(1); top: 0; opacity: 1;}
+    /* 음악 토글 버튼 */
+    .music-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s, border-color 0.3s, transform 0.2s;
+        flex-shrink: 0;
+        outline: none;
     }
 
+    .music-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.9);
+        transform: scale(1.1);
+    }
 
-    .textbox li:nth-child(1) span:nth-child(2) {animation-delay: 0.1s;} 
-    .textbox li:nth-child(1) span:nth-child(3) {animation-delay: 0.3s;} 
-    .textbox li:nth-child(1) span:nth-child(4) {animation-delay: 0.5s;} 
-    .textbox li:nth-child(1) span:nth-child(5) {animation-delay: 0.7s;} 
-    .textbox li:nth-child(1) span:nth-child(6) {animation-delay: 0.9s;} 
-    .textbox li:nth-child(1) span:nth-child(7) {animation-delay: 1.1s;} 
-    .textbox li:nth-child(1) span:nth-child(8) {animation-delay: 1.3s;}
+    .music-btn.playing {
+        border-color: rgba(255, 220, 100, 0.8);
+        box-shadow: 0 0 12px rgba(255, 220, 100, 0.4);
+    }
 
-    .textbox li:nth-child(2) span:nth-child(1) {animation-delay: 0.1s;} */
-
-
+    /* ─── 텍스트 ─── */
     .textbox {
         position: absolute;
         left: 50%;
@@ -322,9 +321,7 @@
     .textbox ul {
         display: flex;
         flex-direction: column;
-        /* 문장을 위아래로 배치 */
         gap: 10px;
-        /* 문장 사이의 수직 간격 */
     }
 
     .textbox li {
@@ -334,160 +331,193 @@
         justify-content: center;
         flex-direction: row;
         letter-spacing: 5px;
-        /* 기본 자간 */
     }
 
     .textbox li span {
         display: block;
         opacity: 0;
-        /* 처음엔 안 보임 */
         filter: blur(10px);
-        /* 살짝 흐릿하게 시작 (선택 사항) */
-        animation: appear 5s ease-out forwards;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-            0 0 20px rgba(255, 255, 255, 0.3);
+        animation: appear  5s ease-out     var(--char-delay, 1.5s) forwards,
+                   textGlow 3s ease-in-out var(--glow-delay, 6.5s) infinite alternate;
     }
 
     .textbox li .mb {
         margin-right: 20px;
     }
 
-    /* 띄어쓰기 간격 */
-
-    /* [2] 사라락 나타나는 효과 (핵심) */
     @keyframes appear {
         0% {
             opacity: 0;
             filter: blur(10px);
             transform: scale(1.1);
-            /* 살짝 커졌다가 제자리로 */
             letter-spacing: 20px;
-            /* 글자 사이가 넓게 시작 */
         }
-
         100% {
             opacity: 1;
             filter: blur(0);
             transform: scale(1);
             letter-spacing: 5px;
-            /* 원래 간격으로 복귀 */
         }
     }
 
-    /* [3] 글자별 지연 시간 (딜레이) */
-    /* 첫 번째 문장 */
-    .textbox li:nth-child(1) span:nth-child(1) {
-        animation-delay: 1.5s;
+    @keyframes textGlow {
+        0% {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                         0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        100% {
+            text-shadow: 0 0 15px rgba(255, 255, 200, 0.9),
+                         0 0 35px rgba(255, 240, 150, 0.6),
+                         0 0 60px rgba(255, 200,  80, 0.3);
+        }
     }
 
-    .textbox li:nth-child(1) span:nth-child(2) {
-        animation-delay: 1.6s;
+    /* 글자별 딜레이 (CSS 변수로 통합) */
+    .textbox li:nth-child(1) span:nth-child(1) { --char-delay: 1.5s; --glow-delay: 6.5s; }
+    .textbox li:nth-child(1) span:nth-child(2) { --char-delay: 1.6s; --glow-delay: 6.6s; }
+    .textbox li:nth-child(1) span:nth-child(3) { --char-delay: 1.7s; --glow-delay: 6.7s; }
+    .textbox li:nth-child(1) span:nth-child(4) { --char-delay: 1.8s; --glow-delay: 6.8s; }
+    .textbox li:nth-child(1) span:nth-child(5) { --char-delay: 1.9s; --glow-delay: 6.9s; }
+    .textbox li:nth-child(1) span:nth-child(6) { --char-delay: 2.0s; --glow-delay: 7.0s; }
+    .textbox li:nth-child(1) span:nth-child(7) { --char-delay: 2.1s; --glow-delay: 7.1s; }
+    .textbox li:nth-child(1) span:nth-child(8) { --char-delay: 2.2s; --glow-delay: 7.2s; }
+    .textbox li:nth-child(2) span:nth-child(1) { --char-delay: 2.3s; --glow-delay: 7.3s; }
+    .textbox li:nth-child(2) span:nth-child(2) { --char-delay: 2.4s; --glow-delay: 7.4s; }
+    .textbox li:nth-child(2) span:nth-child(3) { --char-delay: 2.5s; --glow-delay: 7.5s; }
+    .textbox li:nth-child(2) span:nth-child(4) { --char-delay: 2.6s; --glow-delay: 7.6s; }
+    .textbox li:nth-child(2) span:nth-child(5) { --char-delay: 2.7s; --glow-delay: 7.7s; }
+
+    /* ─── 별 레이어 ─── */
+    .right_box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 300;
+        pointer-events: none;
+        overflow: hidden;
+        mix-blend-mode: screen;
     }
 
-    .textbox li:nth-child(1) span:nth-child(3) {
-        animation-delay: 1.7s;
+    .right_box img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        mix-blend-mode: screen;
+        opacity: 0;
+        will-change: opacity, filter;
     }
 
-    .textbox li:nth-child(1) span:nth-child(4) {
-        animation-delay: 1.8s;
+    .star1 { animation: shine1 5s ease-in-out 4.0s infinite alternate; }
+    .star2 { transform: rotate(45deg);  animation: shine2 6s ease-in-out 5.0s infinite alternate; }
+    .star3 { transform: rotate(90deg);  animation: shine3 7s ease-in-out 6.0s infinite alternate; }
+
+    @keyframes shine1 {
+        0%   { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @keyframes shine2 {
+        0%   { opacity: 0;   transform: rotate(45deg); }
+        100% { opacity: 0.8; transform: rotate(45deg); }
+    }
+    @keyframes shine3 {
+        0%   { filter: brightness(1);   transform: rotate(90deg); opacity: 0; }
+        100% { filter: brightness(1.5); transform: rotate(90deg); opacity: 1; }
     }
 
-    .textbox li:nth-child(1) span:nth-child(5) {
-        animation-delay: 1.9s;
+    /* ─── 반딧불 파티클 ─── */
+    .particles {
+        position: absolute;
+        inset: 0;
+        z-index: 360;
+        pointer-events: none;
+        overflow: hidden;
     }
 
-    .textbox li:nth-child(1) span:nth-child(6) {
-        animation-delay: 2.0s;
+    .particles span {
+        position: absolute;
+        bottom: -10px;
+        border-radius: 50%;
+        opacity: 0;
+        animation: floatUp var(--dur, 8s) ease-in-out var(--delay, 0s) infinite;
     }
 
-    .textbox li:nth-child(1) span:nth-child(7) {
-        animation-delay: 2.1s;
+    @keyframes floatUp {
+        0%   { opacity: 0;   transform: translateY(0)      scale(1); }
+        15%  { opacity: 0.9; }
+        85%  { opacity: 0.6; }
+        100% { opacity: 0;   transform: translateY(-100vh) scale(0.4); }
     }
 
-    .textbox li:nth-child(1) span:nth-child(8) {
-        animation-delay: 2.2s;
+    .particles span:nth-child(1) {
+        left: 5%;   width: 3px; height: 3px;
+        background: radial-gradient(circle, rgba(255,255,200,1) 0%, rgba(255,220,100,0) 70%);
+        box-shadow: 0 0 6px 2px rgba(255,220,100,0.6);
+        --dur: 9s; --delay: 3s;
+    }
+    .particles span:nth-child(2) {
+        left: 14%;  width: 2px; height: 2px;
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%);
+        box-shadow: 0 0 4px 1px rgba(255,255,255,0.5);
+        --dur: 11s; --delay: 5.5s;
+    }
+    .particles span:nth-child(3) {
+        left: 26%;  width: 4px; height: 4px;
+        background: radial-gradient(circle, rgba(255,240,180,1) 0%, rgba(255,200,80,0) 70%);
+        box-shadow: 0 0 8px 3px rgba(255,200,80,0.5);
+        --dur: 13s; --delay: 7s;
+    }
+    .particles span:nth-child(4) {
+        left: 40%;  width: 2px; height: 2px;
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%);
+        box-shadow: 0 0 5px 2px rgba(200,220,255,0.6);
+        --dur: 8s;  --delay: 4s;
+    }
+    .particles span:nth-child(5) {
+        left: 55%;  width: 3px; height: 3px;
+        background: radial-gradient(circle, rgba(255,255,200,1) 0%, transparent 70%);
+        box-shadow: 0 0 7px 2px rgba(255,240,100,0.5);
+        --dur: 10s; --delay: 2s;
+    }
+    .particles span:nth-child(6) {
+        left: 67%;  width: 2px; height: 2px;
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%);
+        box-shadow: 0 0 4px 1px rgba(255,255,255,0.4);
+        --dur: 14s; --delay: 6s;
+    }
+    .particles span:nth-child(7) {
+        left: 80%;  width: 3px; height: 3px;
+        background: radial-gradient(circle, rgba(255,220,150,1) 0%, transparent 70%);
+        box-shadow: 0 0 6px 2px rgba(255,200,100,0.5);
+        --dur: 9s;  --delay: 8s;
+    }
+    .particles span:nth-child(8) {
+        left: 91%;  width: 2px; height: 2px;
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%);
+        box-shadow: 0 0 5px 2px rgba(180,200,255,0.5);
+        --dur: 12s; --delay: 1s;
     }
 
-    /* 두 번째 문장 (첫 문장이 거의 다 나온 뒤 시작) */
-    .textbox li:nth-child(2) span:nth-child(1) {
-        animation-delay: 2.3s;
-    }
-
-    .textbox li:nth-child(2) span:nth-child(2) {
-        animation-delay: 2.4s;
-    }
-
-    .textbox li:nth-child(2) span:nth-child(3) {
-        animation-delay: 2.5s;
-    }
-
-    .textbox li:nth-child(2) span:nth-child(4) {
-        animation-delay: 2.6s;
-    }
-
-    .textbox li:nth-child(2) span:nth-child(5) {
-        animation-delay: 2.7s;
-    }
-
-    /* 1. 별들을 감싸는 부모 박스 */
-.right_box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 300;
-    pointer-events: none; /* 클릭 방해 금지 */
-    overflow: hidden;
-    mix-blend-mode: screen;
-}
-
-.right_box img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    mix-blend-mode: screen;
-    opacity: 0;
-}
-
-/* 개별 별 레이어 애니메이션 (휙 튀어나오는 현상 제거) */
-.star1 {
-    /* 3초 뒤에 아주 천천히(5s) 스르륵 나타나서 깜빡임 */
-    animation: shine1 5s ease-in-out 4.0s infinite alternate;
-}
-
-.star2 {
-    transform: rotate(45deg);
-    /* reverse 빼고 alternate로 통일, 4초 뒤에 스르륵 나타남 */
-    animation: shine2 6s ease-in-out 5.0s infinite alternate; 
-}
-
-.star3 {
-    transform: rotate(90deg);
-    /* linear 빼고 ease-in-out 추가! 5초 뒤에 천천히 나타남 */
-    animation: shine3 7s ease-in-out 6.0s infinite alternate; 
-}
-
-/* 4. 애니메이션 효과 (멀미 방지 + 부드러운 투명도 조절) */
-@keyframes shine1 {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes shine2 {
-    0% { opacity: 0; transform: rotate(45deg); }
-    100% { opacity: 0.8; transform: rotate(45deg); }
-}
-
-@keyframes shine3 {
-    0% { filter: brightness(1); transform: rotate(90deg); opacity: 0; }
-    100% { filter: brightness(1.5); transform: rotate(90deg); opacity: 1; }
-}
-    audio {
-        display: none;
+    /* ─── 접근성: 모션 감소 설정 ─── */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            animation-delay: 0ms !important;
+            transition-duration: 0.01ms !important;
+        }
+        .bg_box .bg1 .img1 { transform: scale(1); filter: brightness(0.9); }
+        .bg_box .bg1 .img2,
+        .bg_box .bg1 .img3,
+        .bg_box .bg1 .img5 { opacity: 1; transform: none; filter: none; }
+        .bg_box .bg1 .img4 { opacity: 1; transform: scale(1.3) translate(0%, 5%); filter: brightness(1); }
+        .textbox li span   { opacity: 1; filter: none; transform: none; letter-spacing: 5px; }
+        .right_box img     { opacity: 1; }
+        .particles span    { display: none; }
     }
 </style>
 
@@ -503,54 +533,121 @@
                     <li><a href="#">Notice</a></li>
                 </ul>
             </nav>
-            <audio src="img/music.mp4" controls></audio>
+            <audio id="bgMusic" src="img/music.mp4" loop></audio>
+            <button class="music-btn" id="musicBtn" aria-label="음악 재생" title="음악 재생/정지">♪</button>
         </header>
 
-        <div class="textbox">
-            <ul>
-                <li>
-                    <span>여</span>
-                    <span>름</span>
-                    <span>밤</span>
-                    <span class="mb">이</span>
+        <div class="parallax-layer text-parallax" data-depth="0.15">
+            <div class="textbox">
+                <ul>
+                    <li>
+                        <span>여</span>
+                        <span>름</span>
+                        <span>밤</span>
+                        <span class="mb">이</span>
 
-                    <span class="mb">써</span>
+                        <span class="mb">써</span>
 
-                    <span>내</span>
-                    <span>려</span>
-                    <span>간</span>
-                </li>
-                <li>
-                    <span>빛</span>
-                    <span class="mb">의</span>
+                        <span>내</span>
+                        <span>려</span>
+                        <span>간</span>
+                    </li>
+                    <li>
+                        <span>빛</span>
+                        <span class="mb">의</span>
 
-                    <span>문</span>
-                    <span>장</span>
-                    <span>들</span>
-                </li>
-            </ul>
+                        <span>문</span>
+                        <span>장</span>
+                        <span>들</span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <div class="bg_box">
             <div class="bg1">
-                <!--                 <img src="img/background.png" alt=""> -->
-                <img src="img/background.png" alt="" class="img1">
-                <img src="img/forest.png" alt="" class="img2">
-                <img src="img/minicloud.png" alt="" class="img3">
-                <img src="img/moon.png" alt="" class="img4">
+                <div class="parallax-layer" data-depth="0.05">
+                    <img src="img/background.png" alt="" class="img1">
+                </div>
+                <div class="parallax-layer" data-depth="0.1">
+                    <img src="img/forest.png" alt="" class="img2">
+                </div>
+                <div class="parallax-layer" data-depth="0.07">
+                    <img src="img/minicloud.png" alt="" class="img3">
+                </div>
+                <div class="parallax-layer" data-depth="0.3">
+                    <img src="img/moon.png" alt="" class="img4">
+                </div>
                 <img src="img/jiwon_star2.png" alt="" class="img5">
                 <div class="right_box">
                     <img src="img/jiwon_star.png" alt="" class="star1">
                     <img src="img/jiwon_star.png" alt="" class="star2">
                     <img src="img/jiwon_star.png" alt="" class="star3">
-                    <!-- <div class="right1"></div>
-                    <div class="right2"></div>
-                    <div class="right3"></div> -->
                 </div>
             </div>
         </div>
 
+        <div class="particles">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
     </div>
+
+    <script>
+        // ── 마우스 패럴랙스 ──
+        const layers = document.querySelectorAll('.parallax-layer');
+        let mouseX = 0, mouseY = 0;
+        let currentX = 0, currentY = 0;
+        let parallaxActive = false;
+        const LERP  = 0.07;
+        const SHIFT = 30;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        function lerp(a, b, t) { return a + (b - a) * t; }
+
+        (function tick() {
+            if (parallaxActive) {
+                currentX = lerp(currentX, mouseX, LERP);
+                currentY = lerp(currentY, mouseY, LERP);
+                layers.forEach(layer => {
+                    const d  = parseFloat(layer.dataset.depth) || 0;
+                    const dx = currentX * SHIFT * d;
+                    const dy = currentY * SHIFT * d;
+                    layer.style.transform = `translate(${dx}px, ${dy}px)`;
+                });
+            }
+            requestAnimationFrame(tick);
+        })();
+
+        // 인트로 애니메이션 완료 후 패럴랙스 활성화
+        setTimeout(() => { parallaxActive = true; }, 9000);
+
+        // ── 음악 토글 ──
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic  = document.getElementById('bgMusic');
+        musicBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicBtn.classList.add('playing');
+                musicBtn.setAttribute('aria-label', '음악 정지');
+            } else {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.setAttribute('aria-label', '음악 재생');
+            }
+        });
+    </script>
 </body>
 
 </html>
