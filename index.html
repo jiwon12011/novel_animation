@@ -48,6 +48,9 @@
         position: relative;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
+        min-height: 100vh;
+        min-height: 100dvh;
         overflow: hidden;
     }
 
@@ -79,6 +82,7 @@
     .bg_box .bg1 .img1 {
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         object-fit: cover;
         position: absolute;
         left: 0;
@@ -99,6 +103,7 @@
         bottom: 0;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         object-fit: cover;
         z-index: 3;
         opacity: 0;
@@ -125,6 +130,7 @@
         top: 0;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         object-fit: cover;
         z-index: 2;
         opacity: 0;
@@ -151,6 +157,7 @@
         top: 0;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         object-fit: cover;
         z-index: 1;
         mix-blend-mode: screen;
@@ -268,6 +275,7 @@
     .bg_box .bg1 img {
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         object-fit: cover;
     }
 
@@ -302,6 +310,23 @@
 
     header h1 img {
         width: 100%;
+    }
+
+    .menu-toggle {
+        display: none;
+        min-width: 78px;
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        background: rgba(12, 24, 40, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #f2f5f9;
+        font-family: inherit;
+        font-size: 14px;
+        letter-spacing: 0.06em;
+        cursor: pointer;
     }
 
     header nav {
@@ -389,6 +414,8 @@
         text-align: center;
         z-index: 400;
         width: 100%;
+        padding: 0 24px;
+        box-sizing: border-box;
     }
 
     .textbox ul {
@@ -626,6 +653,331 @@
         }
     }
 
+    @media (max-width: 720px) {
+        body {
+            overflow: hidden;
+        }
+
+        header {
+            top: 14px;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            column-gap: 8px;
+            row-gap: 12px;
+            padding: 0 14px;
+        }
+
+        header h1 {
+            width: 74px;
+        }
+
+        .menu-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: start;
+        }
+
+        header nav {
+            position: static;
+            left: auto;
+            top: auto;
+            transform: none;
+            grid-column: 1 / -1;
+            justify-self: stretch;
+            width: 100%;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.25s ease,
+                        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(-8px);
+        }
+
+        header nav .gnb {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            background: rgba(7, 15, 28, 0.56);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+        }
+
+        header nav .gnb li {
+            width: 100%;
+            font-size: 15px;
+        }
+
+        header nav .gnb li a {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .music-btn {
+            width: 38px;
+            height: 38px;
+            font-size: 17px;
+            justify-self: end;
+        }
+
+        header.menu-open nav {
+            max-height: 320px;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        header.menu-open .menu-toggle {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .textbox {
+            top: 56%;
+            padding: 0 18px;
+        }
+
+        .textbox ul {
+            gap: 6px;
+        }
+
+        .textbox li {
+            font-size: clamp(28px, 8.8vw, 42px);
+            letter-spacing: 2px;
+            flex-wrap: wrap;
+            line-height: 1.28;
+        }
+
+        .textbox li .mb {
+            margin-right: 8px;
+        }
+
+        .bg_box .bg1 .img4 {
+            transform: scale(1.18) translate(-2%, 10%);
+        }
+
+        .bg_box .bg1 .img5 {
+            width: min(165vw, 860px);
+            top: 54%;
+        }
+
+        .right_box {
+            opacity: 0.8;
+        }
+    }
+
+    @media (orientation: portrait) {
+        header {
+            top: 12px;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            row-gap: 12px;
+            column-gap: 8px;
+            padding: 0 14px;
+            max-width: none;
+        }
+
+        header h1 {
+            width: clamp(56px, 9vw, 74px);
+        }
+
+        .menu-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: start;
+        }
+
+        header nav {
+            position: static;
+            left: auto;
+            top: auto;
+            transform: none;
+            grid-column: 1 / -1;
+            justify-self: stretch;
+            width: 100%;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.25s ease,
+                        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(-8px);
+        }
+
+        header nav .gnb {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            background: rgba(7, 15, 28, 0.56);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+        }
+
+        header nav .gnb li {
+            width: 100%;
+            font-size: clamp(13px, 2.1vw, 16px);
+        }
+
+        header nav .gnb li a {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .music-btn {
+            width: clamp(32px, 4.2vw, 38px);
+            height: clamp(32px, 4.2vw, 38px);
+            font-size: clamp(14px, 2.4vw, 17px);
+            margin-right: 0;
+            justify-self: end;
+        }
+
+        header.menu-open nav {
+            max-height: 320px;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        header.menu-open .menu-toggle {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .textbox {
+            top: 60%;
+            padding: 0 20px;
+        }
+
+        .textbox ul {
+            gap: 8px;
+        }
+
+        .textbox li {
+            font-size: clamp(30px, 6.6vw, 52px);
+            line-height: 1.25;
+            letter-spacing: 1px;
+            flex-wrap: wrap;
+        }
+
+        .textbox li .mb {
+            margin-right: 8px;
+        }
+
+        .bg_box .bg1 .img1,
+        .bg_box .bg1 .img2,
+        .bg_box .bg1 .img3,
+        .bg_box .bg1 .img4 {
+            object-position: center center;
+        }
+
+        .bg_box .bg1 .img4 {
+            transform: scale(1.08) translate(0%, 12%);
+        }
+
+        .bg_box .bg1 .img5 {
+            width: min(155vw, 760px);
+            top: 60%;
+            opacity: 0.45;
+        }
+
+        .right_box {
+            opacity: 0.55;
+        }
+
+        .particles {
+            opacity: 0.7;
+        }
+    }
+
+    @media (max-width: 540px) {
+        header {
+            top: 12px;
+            row-gap: 12px;
+            padding: 0 12px;
+        }
+
+        header h1 {
+            width: 66px;
+        }
+
+        header nav {
+            width: 100%;
+        }
+
+        header nav .gnb {
+            gap: 7px;
+        }
+
+        header nav .gnb li {
+            font-size: 13px;
+        }
+
+        header nav .gnb li a {
+            padding: 9px 10px;
+        }
+
+        .music-btn {
+            width: 34px;
+            height: 34px;
+            font-size: 15px;
+        }
+
+        .textbox {
+            top: 58%;
+            padding: 0 14px;
+        }
+
+        .textbox li {
+            font-size: clamp(22px, 8.2vw, 32px);
+            letter-spacing: 1px;
+            line-height: 1.34;
+        }
+
+        .textbox li .mb {
+            margin-right: 6px;
+        }
+
+        .bg_box .bg1 .img3 {
+            object-position: 58% center;
+        }
+
+        .bg_box .bg1 .img4 {
+            transform: scale(1.12) translate(2%, 10%);
+        }
+
+        .bg_box .bg1 .img5 {
+            width: 188vw;
+            top: 56%;
+            opacity: 0.6;
+        }
+
+        .particles {
+            opacity: 0.7;
+        }
+    }
+
     /* ─── 접근성: 모션 감소 설정 ─── */
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
@@ -649,7 +1001,8 @@
     <div class="wrap">
         <header>
             <h1><img src="img/logo.png" alt=""></h1>
-            <nav>
+            <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+            <nav id="mainNav">
                 <ul class="gnb">
                     <li><a href="#">Prologue</a></li>
                     <li><a href="#">Chapters</a></li>
@@ -758,8 +1111,48 @@
         setTimeout(() => { parallaxActive = true; }, 7600);
 
         // ── 음악 토글 ──
+        const header = document.querySelector('header');
+        const menuToggle = document.getElementById('menuToggle');
+        const mediaQuery = window.matchMedia('(orientation: portrait), (max-width: 720px)');
+        const navLinks = document.querySelectorAll('#mainNav a');
         const musicBtn = document.getElementById('musicBtn');
         const bgMusic  = document.getElementById('bgMusic');
+
+        function syncMobileMenu() {
+            if (!mediaQuery.matches) {
+                header.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        menuToggle.addEventListener('click', () => {
+            if (!mediaQuery.matches) return;
+            const isOpen = header.classList.toggle('menu-open');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        navLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                if (!mediaQuery.matches) return;
+                header.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!mediaQuery.matches || !header.classList.contains('menu-open')) return;
+            if (!header.contains(event.target)) {
+                header.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', syncMobileMenu);
+        } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(syncMobileMenu);
+        }
+
         musicBtn.addEventListener('click', () => {
             if (bgMusic.paused) {
                 bgMusic.play();
