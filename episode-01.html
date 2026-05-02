@@ -1,745 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Episode 01 - 여름밤의 첫 문장</title>
-    <style>
-        @font-face {
-            font-family: 'HeirofLightRegular';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightRegular.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'HeirofLightBold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightBold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        :root {
-            --text-main: #f7f6f1;
-            --text-soft: rgba(232, 237, 244, 0.8);
-            --text-body: rgba(246, 247, 249, 0.96);
-            --line-soft: rgba(255, 255, 255, 0.12);
-            --panel-bg: rgba(8, 18, 32, 0.52);
-            --panel-strong: rgba(7, 15, 28, 0.76);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'HeirofLightRegular';
-            color: var(--text-main);
-            background: #06101d;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            word-break: keep-all;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        img {
-            vertical-align: top;
-        }
-
-        .page {
-            position: relative;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background:
-                linear-gradient(180deg, rgba(4, 11, 22, 0.28) 0%, rgba(4, 10, 18, 0.78) 100%),
-                radial-gradient(circle at 50% 12%, rgba(116, 177, 255, 0.11), transparent 28%);
-            overflow: hidden;
-        }
-
-        .page::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center,
-                transparent 50%,
-                rgba(0, 0, 0, 0.22) 76%,
-                rgba(0, 0, 0, 0.64) 100%);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .backdrop,
-        .mist,
-        .particles {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .backdrop img,
-        .mist img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .backdrop .sky {
-            opacity: 0.5;
-            transform: scale(1.05);
-            animation: softZoom 18s ease-out forwards;
-        }
-
-        .backdrop .forest {
-            opacity: 0.52;
-            animation: fadeLift 3s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
-        }
-
-        .backdrop .moon {
-            mix-blend-mode: screen;
-            opacity: 0.34;
-            transform: scale(1.12) translate(13%, -10%);
-            animation: moonFloat 18s ease-in-out infinite alternate;
-        }
-
-        .mist img {
-            opacity: 0.12;
-            transform: scale(1.08);
-            animation: cloudShift 16s ease-in-out infinite alternate;
-        }
-
-        .particles {
-            z-index: 6;
-            overflow: hidden;
-            opacity: 0.45;
-        }
-
-        .particles span {
-            position: absolute;
-            bottom: -8%;
-            border-radius: 999px;
-            opacity: 0;
-            animation: driftUp var(--dur) ease-in-out var(--delay) infinite;
-        }
-
-        .particles span:nth-child(1) {
-            left: 8%;
-            width: 3px;
-            height: 3px;
-            --dur: 10s;
-            --delay: 1.4s;
-            background: radial-gradient(circle, rgba(255, 245, 214, 1) 0%, rgba(255, 220, 126, 0) 72%);
-            box-shadow: 0 0 8px 2px rgba(255, 214, 116, 0.36);
-        }
-
-        .particles span:nth-child(2) {
-            left: 23%;
-            width: 2px;
-            height: 2px;
-            --dur: 11s;
-            --delay: 4s;
-            background: radial-gradient(circle, rgba(230, 238, 255, 1) 0%, transparent 72%);
-            box-shadow: 0 0 6px 2px rgba(170, 199, 255, 0.24);
-        }
-
-        .particles span:nth-child(3) {
-            left: 41%;
-            width: 3px;
-            height: 3px;
-            --dur: 12.5s;
-            --delay: 2.3s;
-            background: radial-gradient(circle, rgba(255, 247, 224, 1) 0%, rgba(255, 219, 126, 0) 70%);
-            box-shadow: 0 0 9px 3px rgba(255, 218, 126, 0.24);
-        }
-
-        .particles span:nth-child(4) {
-            left: 58%;
-            width: 2px;
-            height: 2px;
-            --dur: 9.8s;
-            --delay: 0.8s;
-            background: radial-gradient(circle, rgba(236, 243, 255, 1) 0%, transparent 72%);
-            box-shadow: 0 0 6px 2px rgba(171, 199, 255, 0.2);
-        }
-
-        .particles span:nth-child(5) {
-            left: 72%;
-            width: 3px;
-            height: 3px;
-            --dur: 13.4s;
-            --delay: 2.8s;
-            background: radial-gradient(circle, rgba(255, 243, 214, 1) 0%, rgba(255, 218, 120, 0) 72%);
-            box-shadow: 0 0 9px 3px rgba(255, 216, 118, 0.26);
-        }
-
-        .particles span:nth-child(6) {
-            left: 86%;
-            width: 2px;
-            height: 2px;
-            --dur: 11.5s;
-            --delay: 5.1s;
-            background: radial-gradient(circle, rgba(232, 240, 255, 1) 0%, transparent 72%);
-            box-shadow: 0 0 6px 2px rgba(170, 199, 255, 0.22);
-        }
-
-        .shell {
-            position: relative;
-            z-index: 20;
-            width: min(1100px, calc(100% - 48px));
-            margin: 0 auto;
-            padding: 28px 0 56px;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding-bottom: 24px;
-        }
-
-        .brand {
-            width: 92px;
-            flex-shrink: 0;
-        }
-
-        .brand img {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            min-width: 78px;
-            height: 40px;
-            padding: 0 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            background: rgba(12, 24, 40, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #f2f5f9;
-            font-family: inherit;
-            font-size: 14px;
-            letter-spacing: 0.06em;
-            cursor: pointer;
-        }
-
-        nav {
-            margin-left: auto;
-        }
-
-        .gnb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .gnb li {
-            font-size: 18px;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
-            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-                        opacity 0.38s ease,
-                        filter 0.38s ease;
-        }
-
-        .gnb a {
-            display: flex;
-            padding: 9px 20px;
-            color: rgba(238, 241, 245, 0.78);
-            transition: color 0.38s ease, text-shadow 0.38s ease, background 0.38s ease;
-            border-radius: 999px;
-        }
-
-        .gnb:hover li {
-            transform: scale(0.95);
-            opacity: 0.78;
-            filter: saturate(0.85);
-        }
-
-        .gnb li:hover {
-            transform: scale(1.05) translateY(-1px);
-            opacity: 1;
-            filter: saturate(1);
-        }
-
-        .gnb li:hover a,
-        .gnb .active a {
-            color: #fff;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .music-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s, border-color 0.3s, transform 0.2s;
-            flex-shrink: 0;
-        }
-
-        .music-btn:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 255, 255, 0.88);
-            transform: scale(1.08);
-        }
-
-        .music-btn.playing {
-            border-color: rgba(255, 220, 100, 0.8);
-            box-shadow: 0 0 12px rgba(255, 220, 100, 0.38);
-        }
-
-        .episode-head {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 220px;
-            gap: 22px;
-            align-items: end;
-            margin-bottom: 28px;
-        }
-
-        .eyebrow {
-            font-size: 13px;
-            letter-spacing: 0.28em;
-            color: rgba(220, 232, 249, 0.62);
-            margin-bottom: 16px;
-        }
-
-        .episode-head h1 {
-            font-family: 'HeirofLightBold';
-            font-size: clamp(32px, 4.4vw, 52px);
-            line-height: 1.22;
-            margin-bottom: 12px;
-            text-shadow: 0 0 14px rgba(255, 255, 255, 0.16);
-            text-wrap: balance;
-        }
-
-        .episode-head .summary {
-            max-width: 620px;
-            color: var(--text-soft);
-            line-height: 1.9;
-            font-size: clamp(14px, 1.25vw, 17px);
-        }
-
-        .episode-meta {
-            padding: 20px 20px;
-            border: 1px solid var(--line-soft);
-            border-radius: 26px;
-            background: linear-gradient(180deg, rgba(10, 22, 38, 0.58), rgba(7, 15, 28, 0.76));
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-        }
-
-        .episode-meta ul {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .episode-meta li {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            color: rgba(237, 241, 247, 0.82);
-        }
-
-        .episode-meta strong {
-            font-size: 12px;
-            letter-spacing: 0.18em;
-            color: rgba(214, 226, 245, 0.54);
-        }
-
-        .reader-layout {
-            display: block;
-        }
-
-        .reader-panel {
-            border: 1px solid var(--line-soft);
-            background: var(--panel-bg);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-        }
-
-        .reader-panel {
-            border-radius: 32px;
-            padding: 20px;
-        }
-
-        .reader-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-
-        .reader-nav a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(244, 246, 250, 0.82);
-            font-size: 14px;
-        }
-
-        .reader-nav .disabled {
-            opacity: 0.42;
-            pointer-events: none;
-        }
-
-        .reader-body {
-            width: min(100%, 760px);
-            margin: 0 auto;
-            padding: 34px clamp(24px, 4vw, 50px);
-            border-radius: 28px;
-            background: linear-gradient(180deg, rgba(10, 20, 34, 0.9), rgba(7, 14, 25, 0.94));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
-
-        .scene-mark {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            color: rgba(219, 230, 246, 0.58);
-            font-size: 12px;
-            letter-spacing: 0.24em;
-        }
-
-        .scene-mark::before {
-            content: '';
-            width: 34px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.26);
-        }
-
-        .lead {
-            font-family: 'HeirofLightBold';
-            font-size: clamp(19px, 2vw, 25px);
-            line-height: 2;
-            color: rgba(250, 250, 247, 0.96);
-            margin-bottom: 34px;
-            text-shadow: none;
-            text-wrap: balance;
-        }
-
-        .reader-body p {
-            color: var(--text-body);
-            font-size: clamp(16px, 1.32vw, 18px);
-            line-height: 2.2;
-            margin-bottom: 24px;
-            word-break: keep-all;
-            text-shadow: none;
-        }
-
-        .reader-body .quote {
-            margin: 36px 0;
-            padding: 24px 26px;
-            border-left: 2px solid rgba(255, 230, 166, 0.34);
-            background: rgba(255, 255, 255, 0.025);
-            color: rgba(248, 247, 238, 0.88);
-            font-size: clamp(17px, 1.5vw, 20px);
-            line-height: 2.02;
-            text-wrap: balance;
-        }
-
-        .episode-footer {
-            display: flex;
-            justify-content: space-between;
-            gap: 14px;
-            align-items: center;
-            width: min(100%, 760px);
-            margin: 24px auto 0;
-            padding-top: 22px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .episode-footer .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .episode-footer .tags span {
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(233, 238, 246, 0.7);
-            font-size: 13px;
-        }
-
-        @keyframes softZoom {
-            from {
-                transform: scale(1.06);
-                filter: brightness(0.52);
-            }
-            to {
-                transform: scale(1);
-                filter: brightness(0.78);
-            }
-        }
-
-        @keyframes fadeLift {
-            from {
-                opacity: 0;
-                transform: translateY(56px) scale(1.03);
-                filter: blur(7px);
-            }
-            to {
-                opacity: 0.78;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes moonFloat {
-            0% {
-                transform: scale(1.12) translate(13%, -10%);
-                filter: brightness(0.9);
-            }
-            100% {
-                transform: scale(1.14) translate(10%, -7%);
-                filter: brightness(1.04);
-            }
-        }
-
-        @keyframes cloudShift {
-            0% {
-                transform: scale(1.08) translate3d(0, 0, 0);
-            }
-            50% {
-                transform: scale(1.1) translate3d(16px, -8px, 0);
-            }
-            100% {
-                transform: scale(1.08) translate3d(30px, 6px, 0);
-            }
-        }
-
-        @keyframes driftUp {
-            0% {
-                opacity: 0;
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-            15% {
-                opacity: 0.8;
-            }
-            85% {
-                opacity: 0.5;
-            }
-            100% {
-                opacity: 0;
-                transform: translate3d(20px, -108vh, 0) scale(0.42);
-            }
-        }
-
-        @media (max-width: 980px) {
-            .shell {
-                width: min(100% - 28px, 1100px);
-            }
-
-            .episode-head {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (orientation: portrait), (max-width: 720px) {
-            header {
-                display: grid;
-                grid-template-columns: auto 1fr auto auto;
-                column-gap: 8px;
-                row-gap: 12px;
-                align-items: center;
-            }
-
-            .menu-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            nav {
-                grid-column: 1 / -1;
-                margin-left: 0;
-                max-height: 0;
-                opacity: 0;
-                overflow: hidden;
-                pointer-events: none;
-                transform: translateY(-8px);
-                transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                            opacity 0.25s ease,
-                            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            }
-
-            .gnb {
-                flex-direction: column;
-                gap: 8px;
-                padding: 10px;
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                background: rgba(7, 15, 28, 0.56);
-                backdrop-filter: blur(18px);
-                -webkit-backdrop-filter: blur(18px);
-                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
-            }
-
-            .gnb li,
-            .gnb a {
-                width: 100%;
-            }
-
-            .gnb a {
-                justify-content: center;
-                padding: 10px 12px;
-                border-radius: 14px;
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-            header.menu-open nav {
-                max-height: 320px;
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateY(0);
-            }
-
-            header.menu-open .menu-toggle {
-                background: rgba(255, 255, 255, 0.16);
-                border-color: rgba(255, 255, 255, 0.7);
-            }
-
-            .episode-head h1 {
-                font-size: clamp(28px, 7vw, 38px);
-            }
-
-            .reader-panel {
-                padding: 18px;
-            }
-
-            .reader-body {
-                padding: 24px 18px;
-            }
-
-            .reader-body p {
-                font-size: 15px;
-                line-height: 2;
-            }
-
-            .episode-footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-        @media (max-width: 540px) {
-            .shell {
-                width: calc(100% - 20px);
-                padding-top: 14px;
-                padding-bottom: 36px;
-            }
-
-            .brand {
-                width: 72px;
-            }
-
-            .menu-toggle {
-                min-width: 74px;
-                height: 36px;
-                font-size: 13px;
-                padding: 0 12px;
-            }
-
-            .music-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 17px;
-            }
-
-            .episode-head .summary {
-                font-size: 14px;
-            }
-
-            .lead {
-                font-size: 20px;
-            }
-
-            .reader-nav {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .reader-nav a {
-                justify-content: center;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-    </style>
+    <title>Episode 01 | 빛의 문장들</title>
+    <link rel="stylesheet" href="subpage-theme.css">
 </head>
-
 <body>
-    <div class="page">
-        <div class="backdrop">
-            <img src="img/background.png" alt="" class="sky">
-            <img src="img/forest.png" alt="" class="forest">
-            <img src="img/moon.png" alt="" class="moon">
-        </div>
-        <div class="mist">
-            <img src="img/minicloud.png" alt="">
-        </div>
-        <div class="particles" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+    <div class="subpage">
+        <div class="bg-layer bg-sky"><img src="img/background.png" alt=""></div>
+        <div class="bg-layer bg-cloud"><img src="img/minicloud.png" alt=""></div>
+        <div class="bg-layer bg-moon"><img src="img/moon.png" alt=""></div>
+        <div class="bg-layer bg-forest"><img src="img/forest.png" alt=""></div>
+        <div class="particle-layer" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
 
         <div class="shell">
-            <header>
-                <a href="index.html" class="brand" aria-label="메인으로 이동">
-                    <img src="img/logo.png" alt="">
+            <header class="site-header">
+                <a class="brand" href="index.html" aria-label="빛의 문장들 홈">
+                    <img src="img/logo.png" alt="빛의 문장들">
                 </a>
-                <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
-                <nav id="mainNav">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+                <nav class="site-nav" id="mainNav" aria-label="주 메뉴">
                     <ul class="gnb">
                         <li><a href="index.html">Prologue</a></li>
                         <li class="active"><a href="chapters.html">Chapters</a></li>
@@ -747,174 +30,83 @@
                         <li><a href="notice.html">Notice</a></li>
                     </ul>
                 </nav>
-                <audio id="bgMusic" src="img/music.mp4" loop></audio>
-                <button class="music-btn" id="musicBtn" aria-label="음악 재생" title="음악 재생/정지">♪</button>
+                <button class="music-btn" id="musicBtn" type="button" aria-label="음악 재생">♪</button>
             </header>
 
-            <section class="episode-head">
-                <div>
-                    <div class="eyebrow">EPISODE 01</div>
-                    <h1>여름밤의 첫 문장</h1>
-                    <p class="summary">
-                        달빛이 처음 숲 위로 내려앉던 밤, 잊힌 이름보다 먼저 다가온 것은 한 줄의 기척이었다.
-                        이 에피소드는 밤과 기억이 서로를 알아보는 가장 첫 장면을 담고 있습니다.
-                    </p>
-                </div>
-
-                <aside class="episode-meta">
-                    <ul>
-                        <li>
-                            <strong>업데이트</strong>
+            <main>
+                <section class="hero">
+                    <div class="hero-copy">
+                        <span class="eyebrow">EPISODE 01</span>
+                        <h1 class="hero-title">여름밤의 첫 문장</h1>
+                        <p class="hero-desc">
+                            달빛이 숲 위에 처음 내려앉던 밤, 오래 잊었다고 믿은 이름 하나가 마음 가장 깊은 곳에서
+                            다시 움직이기 시작한다.
+                        </p>
+                    </div>
+                    <aside class="hero-note">
+                        <span class="note-label">READING NOTE</span>
+                        <p class="note-quote">“기억은 늘 먼저 빛으로 오고, 사람은 그 빛이 지나간 자리를 한참 뒤에야 알아본다.”</p>
+                        <div class="note-meta">
                             <span>2026.05.02</span>
-                        </li>
-                        <li>
-                            <strong>분위기</strong>
-                            <span>달빛 · 숲 · 첫 조우</span>
-                        </li>
-                        <li>
-                            <strong>시즌</strong>
-                            <span>Season 01 · 여름밤의 기록</span>
-                        </li>
-                    </ul>
-                </aside>
-            </section>
+                            <span>Scene 01</span>
+                        </div>
+                        <p class="note-sub">달빛 · 숲 · 첫 조우</p>
+                    </aside>
+                </section>
 
-            <section class="reader-layout">
-                <article class="reader-panel">
-                    <div class="reader-nav">
-                        <a href="chapters.html">← 목록으로</a>
-                        <a href="#" class="disabled">이전 화 없음</a>
+                <section class="detail-wrap">
+                    <div class="detail-panel">
+                        <a class="inline-action" href="chapters.html">목록으로 돌아가기</a>
                     </div>
 
-                    <div class="reader-body">
-                        <div class="scene-mark">SCENE 01 · MOONLIT FOREST</div>
-
-                        <p class="lead">
-                            그날의 밤은 이상할 만큼 조용했다.
-                            모든 것이 잠든 것처럼 보였지만, 이상하게도 나는 누군가가 나를 오래 바라보고 있다는 기분에서 벗어날 수 없었다.
+                    <article class="reader-body">
+                        <span class="scene-mark">SCENE 01 · MOONLIT FOREST</span>
+                        <p class="reader-lead">
+                            숲은 여름밤의 숨을 길게 품고 있었다. 풀잎 끝마다 맺힌 미세한 빛은 마치 누군가 아직 끝내지 못한
+                            문장처럼 떨렸고, 달은 그 위를 아주 느리게 지나고 있었다.
                         </p>
 
                         <p>
-                            창문 틈으로 흘러든 공기는 초여름의 온도를 지니고 있었다.
-                            덥지도 차갑지도 않은, 다만 손끝을 가볍게 스치고 지나가는 정도의 바람.
-                            하지만 그 바람 속에는 설명할 수 없는 냄새가 섞여 있었다.
-                            비가 오기 전의 흙냄새 같기도 했고, 오래전 읽다 덮어 둔 책장 사이의 향 같기도 했다.
+                            그녀는 한참 동안 멈춰 서 있었다. 어디에서부터 이 길을 걸어왔는지, 무엇을 찾고 있었는지조차
+                            선명하게 말할 수 없었지만, 이상하게도 오늘 밤은 누군가 자신을 기다리고 있다는 감각이 사라지지 않았다.
                         </p>
 
                         <p>
-                            나는 창가에 기대어 한동안 바깥을 바라보았다.
-                            숲은 검푸른 그림자 속에 잠겨 있었고, 달빛은 나뭇잎 끝마다 얇게 내려앉아 있었다.
-                            그 빛은 환했다기보다 조용했다.
-                            마치 누군가 큰 목소리를 내지 않고도 곁에 와 있다는 사실만으로 존재를 알리는 것처럼.
+                            나무들 사이로 바람이 스치고 지나갈 때마다 작은 별가루 같은 빛이 허공에 퍼졌다. 그 흔들림을 바라보는
+                            동안, 잊고 지냈던 이름 하나가 아주 멀리서 불리는 것처럼 가슴 안쪽을 가볍게 두드렸다.
                         </p>
 
-                        <div class="quote">
-                            “이상하지.
-                            아무 일도 없는데, 마치 무언가가 막 시작되려는 밤 같아.”
-                        </div>
-
-                        <p>
-                            나는 그 말을 누구에게도 하지 못한 채 마음속에서만 되뇌었다.
-                            이상하게도 입 밖으로 꺼내는 순간, 이 밤이 너무 쉽게 깨져 버릴 것만 같았다.
-                            그래서 대신 더 천천히 숨을 들이쉬었다.
-                            그때였다.
-                            숲 가장자리, 달빛이 가장 오래 머무는 지점에서 아주 작은 빛 하나가 흔들렸다.
+                        <p class="reader-quote">
+                            “처음엔 빛이라고만 생각했다. 그런데 돌아보니, 그건 오래전에 놓쳐버린 마음의 형태였다.”
                         </p>
 
                         <p>
-                            별빛이라기에는 너무 낮았고, 반딧불이라기에는 너무 오래 머물렀다.
-                            마치 누군가 거기 서서 가만히 나를 바라보다가, 내가 눈치채는 순간 아주 느리게 물러서는 것처럼.
-                            분명 두려워해야 했지만 이상하게도 나는 무섭지 않았다.
-                            오히려 오래전에 잃어버린 것을 다시 마주친 사람처럼, 설명할 수 없는 안도감이 먼저 밀려왔다.
+                            그녀는 조심스레 한 걸음 앞으로 내디뎠다. 발끝에 닿은 흙은 따뜻했고, 어둠은 두려움보다도 먼저
+                            익숙함으로 다가왔다. 마치 이 숲이 자신을 기억하고 있는 것처럼, 아주 오래전부터 같은 문장을
+                            기다려 온 것처럼 느껴졌다.
                         </p>
 
                         <p>
-                            그 빛을 따라 몇 걸음 더 다가가고 싶다는 생각이 들었다.
-                            물론 창문을 넘어 숲으로 걸어 들어가진 않았다.
-                            하지만 마음만은 이미 그곳을 향해 조용히 기울어 있었다.
-                            이름도 모르는 무언가가 나를 부르고 있다는 기분.
-                            그것은 두려움과 설렘이 아주 가늘게 겹쳐진, 처음 겪는 종류의 떨림이었다.
+                            그리고 바로 그 순간, 달빛 가장자리에서 누군가의 그림자가 천천히 분리되듯 모습을 드러냈다. 또렷하게
+                            보이지는 않았지만, 그녀는 이상하게도 그 존재를 처음 보는 사람처럼 느끼지 않았다. 오래전에 헤어진 뒤,
+                            단 한 번도 완전히 잊힌 적 없던 사람을 마주한 것처럼 숨이 조금 가벼워졌다.
                         </p>
 
                         <p>
-                            그리고 그 순간, 나는 알았다.
-                            오늘 밤은 단순히 지나가는 밤이 아니라는 것을.
-                            언젠가 다시 돌아보게 될 문장의 첫 줄이, 바로 지금 이곳에서 조용히 시작되고 있다는 것을.
+                            이름을 부르려는 순간, 바람이 한 번 더 지나갔다. 빛은 흩어졌고, 그 사이에서 그녀는 아직 끝나지 않은
+                            이야기의 첫 문장이 이제 막 시작되었음을 깨달았다.
                         </p>
+                    </article>
+
+                    <div class="footer-actions">
+                        <span>#달빛 #숲 #기억의 시작</span>
+                        <a href="chapters.html">다음 문장 기다리기</a>
                     </div>
-
-                    <div class="episode-footer">
-                        <div class="tags">
-                            <span>달빛</span>
-                            <span>숲</span>
-                            <span>첫 조우</span>
-                            <span>기억의 시작</span>
-                        </div>
-                        <div class="reader-nav">
-                            <a href="chapters.html">목록</a>
-                            <a href="#">다음 화 준비 중</a>
-                        </div>
-                    </div>
-                </article>
-            </section>
+                </section>
+            </main>
         </div>
     </div>
 
-    <script>
-        const header = document.querySelector('header');
-        const menuToggle = document.getElementById('menuToggle');
-        const mediaQuery = window.matchMedia('(orientation: portrait), (max-width: 720px)');
-        const navLinks = document.querySelectorAll('#mainNav a');
-        const musicBtn = document.getElementById('musicBtn');
-        const bgMusic = document.getElementById('bgMusic');
-
-        function syncMobileMenu() {
-            if (!mediaQuery.matches) {
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }
-        }
-
-        menuToggle.addEventListener('click', () => {
-            if (!mediaQuery.matches) return;
-            const isOpen = header.classList.toggle('menu-open');
-            menuToggle.setAttribute('aria-expanded', String(isOpen));
-        });
-
-        navLinks.forEach((link) => {
-            link.addEventListener('click', () => {
-                if (!mediaQuery.matches) return;
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!mediaQuery.matches || !header.classList.contains('menu-open')) return;
-            if (!header.contains(event.target)) {
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', syncMobileMenu);
-        } else if (typeof mediaQuery.addListener === 'function') {
-            mediaQuery.addListener(syncMobileMenu);
-        }
-
-        musicBtn.addEventListener('click', () => {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                musicBtn.classList.add('playing');
-                musicBtn.setAttribute('aria-label', '음악 정지');
-            } else {
-                bgMusic.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.setAttribute('aria-label', '음악 재생');
-            }
-        });
-    </script>
+    <script src="subpage.js"></script>
 </body>
-
 </html>

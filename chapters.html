@@ -1,956 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapters</title>
-    <style>
-        @font-face {
-            font-family: 'HeirofLightRegular';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightRegular.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'HeirofLightBold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightBold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        :root {
-            --text-main: #f7f7f4;
-            --text-soft: rgba(239, 242, 246, 0.76);
-            --line-soft: rgba(255, 255, 255, 0.14);
-            --panel-bg: rgba(8, 17, 31, 0.48);
-            --panel-strong: rgba(9, 22, 38, 0.72);
-            --glow-gold: rgba(255, 223, 145, 0.28);
-            --glow-blue: rgba(129, 196, 255, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'HeirofLightRegular';
-            color: var(--text-main);
-            background: #06101d;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            word-break: keep-all;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        img {
-            vertical-align: top;
-        }
-
-        .page {
-            position: relative;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 50% 22%, rgba(124, 181, 255, 0.18), transparent 24%),
-                linear-gradient(180deg, rgba(5, 13, 24, 0.22) 0%, rgba(4, 11, 20, 0.72) 52%, rgba(3, 8, 16, 0.94) 100%);
-        }
-
-        .page::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center,
-                transparent 52%,
-                rgba(0, 0, 0, 0.32) 78%,
-                rgba(0, 0, 0, 0.7) 100%);
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        .sky,
-        .glow-stars,
-        .mist {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .sky img,
-        .mist img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .sky .backdrop {
-            opacity: 0.9;
-            transform: scale(1.06);
-            animation: slowZoom 20s ease-out forwards;
-        }
-
-        .sky .forest {
-            opacity: 0.8;
-            animation: fadeLift 3.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
-        }
-
-        .sky .moon {
-            mix-blend-mode: screen;
-            opacity: 0.72;
-            transform: scale(1.14) translate(12%, -8%);
-            animation: moonFloat 18s ease-in-out infinite alternate;
-        }
-
-        .mist .cloud {
-            opacity: 0.28;
-            transform: scale(1.08);
-            animation: cloudShift 16s ease-in-out infinite alternate;
-        }
-
-        .glow-stars {
-            z-index: 6;
-            opacity: 0.48;
-        }
-
-        .glow-stars img {
-            position: absolute;
-            right: -4%;
-            bottom: 6%;
-            width: min(54vw, 720px);
-            mix-blend-mode: screen;
-            filter: contrast(1.6) brightness(0.7);
-            animation: starPulse 7.8s ease-in-out infinite alternate;
-        }
-
-        .particle-field {
-            position: absolute;
-            inset: 0;
-            z-index: 7;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .particle-field span {
-            position: absolute;
-            bottom: -5%;
-            border-radius: 999px;
-            opacity: 0;
-            animation: driftUp var(--dur) ease-in-out var(--delay) infinite;
-        }
-
-        .particle-field span:nth-child(1) {
-            left: 7%;
-            width: 3px;
-            height: 3px;
-            --dur: 10s;
-            --delay: 1.4s;
-            background: radial-gradient(circle, rgba(255, 243, 202, 1) 0%, rgba(255, 213, 109, 0) 72%);
-            box-shadow: 0 0 8px 2px rgba(255, 214, 115, 0.4);
-        }
-
-        .particle-field span:nth-child(2) {
-            left: 18%;
-            width: 2px;
-            height: 2px;
-            --dur: 12s;
-            --delay: 4.2s;
-            background: radial-gradient(circle, rgba(220, 236, 255, 1) 0%, transparent 72%);
-            box-shadow: 0 0 6px 2px rgba(176, 207, 255, 0.28);
-        }
-
-        .particle-field span:nth-child(3) {
-            left: 29%;
-            width: 4px;
-            height: 4px;
-            --dur: 13s;
-            --delay: 2.4s;
-            background: radial-gradient(circle, rgba(255, 248, 224, 1) 0%, rgba(255, 225, 152, 0) 70%);
-            box-shadow: 0 0 12px 3px rgba(255, 221, 132, 0.36);
-        }
-
-        .particle-field span:nth-child(4) {
-            left: 44%;
-            width: 2px;
-            height: 2px;
-            --dur: 11s;
-            --delay: 0.9s;
-            background: radial-gradient(circle, rgba(242, 248, 255, 1) 0%, transparent 70%);
-            box-shadow: 0 0 7px 2px rgba(181, 206, 255, 0.3);
-        }
-
-        .particle-field span:nth-child(5) {
-            left: 60%;
-            width: 3px;
-            height: 3px;
-            --dur: 14s;
-            --delay: 3.1s;
-            background: radial-gradient(circle, rgba(255, 247, 219, 1) 0%, rgba(255, 226, 133, 0) 72%);
-            box-shadow: 0 0 10px 3px rgba(255, 223, 126, 0.28);
-        }
-
-        .particle-field span:nth-child(6) {
-            left: 73%;
-            width: 2px;
-            height: 2px;
-            --dur: 9.5s;
-            --delay: 5.6s;
-            background: radial-gradient(circle, rgba(232, 240, 255, 1) 0%, transparent 72%);
-            box-shadow: 0 0 6px 2px rgba(171, 199, 255, 0.24);
-        }
-
-        .particle-field span:nth-child(7) {
-            left: 86%;
-            width: 3px;
-            height: 3px;
-            --dur: 12.4s;
-            --delay: 2.8s;
-            background: radial-gradient(circle, rgba(255, 242, 212, 1) 0%, rgba(255, 220, 115, 0) 70%);
-            box-shadow: 0 0 9px 3px rgba(255, 214, 115, 0.3);
-        }
-
-        .shell {
-            position: relative;
-            z-index: 30;
-            width: min(1180px, calc(100% - 48px));
-            margin: 0 auto;
-            padding: 28px 0 64px;
-        }
-
-        header {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 0 0 26px;
-        }
-
-        .brand {
-            width: 96px;
-            flex-shrink: 0;
-        }
-
-        .brand img {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            min-width: 78px;
-            height: 40px;
-            padding: 0 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            background: rgba(12, 24, 40, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #f2f5f9;
-            font-family: inherit;
-            font-size: 14px;
-            letter-spacing: 0.06em;
-            cursor: pointer;
-        }
-
-        nav {
-            margin-left: auto;
-        }
-
-        .gnb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .gnb li {
-            font-size: 18px;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
-            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-                        opacity 0.38s ease,
-                        filter 0.38s ease;
-        }
-
-        .gnb a {
-            display: flex;
-            padding: 9px 20px;
-            color: rgba(238, 241, 245, 0.78);
-            transition: color 0.38s ease, text-shadow 0.38s ease, background 0.38s ease;
-            border-radius: 999px;
-        }
-
-        .gnb:hover li {
-            transform: scale(0.95);
-            opacity: 0.78;
-            filter: saturate(0.85);
-        }
-
-        .gnb li:hover {
-            transform: scale(1.05) translateY(-1px);
-            opacity: 1;
-            filter: saturate(1);
-        }
-
-        .gnb li:hover a,
-        .gnb .active a {
-            color: #fff;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .music-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s, border-color 0.3s, transform 0.2s;
-            flex-shrink: 0;
-        }
-
-        .music-btn:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 255, 255, 0.88);
-            transform: scale(1.08);
-        }
-
-        .music-btn.playing {
-            border-color: rgba(255, 220, 100, 0.8);
-            box-shadow: 0 0 12px rgba(255, 220, 100, 0.38);
-        }
-
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
-            gap: 28px;
-            align-items: end;
-            padding: 14px 0 42px;
-        }
-
-        .hero-copy {
-            max-width: 620px;
-        }
-
-        .eyebrow {
-            font-size: 14px;
-            letter-spacing: 0.32em;
-            color: rgba(219, 233, 255, 0.62);
-            margin-bottom: 18px;
-        }
-
-        .hero h1 {
-            font-family: 'HeirofLightBold';
-            font-size: clamp(34px, 4.8vw, 60px);
-            line-height: 1.2;
-            letter-spacing: 0.03em;
-            text-shadow: 0 0 14px rgba(255, 255, 255, 0.18);
-            margin-bottom: 14px;
-            text-wrap: balance;
-        }
-
-        .hero p {
-            max-width: 560px;
-            font-size: clamp(14px, 1.28vw, 17px);
-            line-height: 1.9;
-            color: var(--text-soft);
-        }
-
-        .hero-panel {
-            padding: 22px 22px;
-            border: 1px solid var(--line-soft);
-            border-radius: 28px;
-            background: linear-gradient(180deg, rgba(11, 25, 44, 0.54), rgba(7, 15, 27, 0.66));
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-panel .label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 18px;
-            color: rgba(227, 237, 255, 0.76);
-            font-size: 13px;
-            letter-spacing: 0.18em;
-        }
-
-        .hero-panel .label::before {
-            content: '';
-            width: 26px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.28);
-        }
-
-        .hero-panel .quote {
-            font-size: 20px;
-            line-height: 1.72;
-            margin-bottom: 18px;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.12);
-            text-wrap: balance;
-        }
-
-        .hero-panel .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .meta span {
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(236, 241, 248, 0.72);
-            font-size: 13px;
-            letter-spacing: 0.08em;
-        }
-
-        .content {
-            display: grid;
-            grid-template-columns: 240px minmax(0, 1fr);
-            gap: 22px;
-            align-items: start;
-        }
-
-        .sidebar,
-        .chapter-board {
-            position: relative;
-            border: 1px solid var(--line-soft);
-            background: var(--panel-bg);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-        }
-
-        .sidebar {
-            border-radius: 28px;
-            padding: 26px 22px;
-        }
-
-        .sidebar h2,
-        .chapter-board h2 {
-            font-family: 'HeirofLightBold';
-            font-size: 23px;
-            margin-bottom: 14px;
-        }
-
-        .sidebar p {
-            color: var(--text-soft);
-            line-height: 1.82;
-            font-size: 14px;
-            margin-bottom: 22px;
-        }
-
-        .sidebar-group + .sidebar-group {
-            margin-top: 28px;
-        }
-
-        .sidebar-group h3 {
-            font-size: 14px;
-            letter-spacing: 0.18em;
-            color: rgba(223, 233, 249, 0.66);
-            margin-bottom: 14px;
-        }
-
-        .sidebar-group ul {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .sidebar-group li {
-            padding: 12px 14px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(238, 242, 248, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            line-height: 1.65;
-            font-size: 14px;
-        }
-
-        .chapter-board {
-            border-radius: 34px;
-            padding: 24px;
-        }
-
-        .board-head {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            align-items: end;
-            margin-bottom: 20px;
-        }
-
-        .board-head p {
-            color: var(--text-soft);
-            line-height: 1.82;
-            font-size: 14px;
-            max-width: 520px;
-        }
-
-        .season-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(239, 243, 248, 0.84);
-            white-space: nowrap;
-        }
-
-        .season-chip::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 226, 147, 1), rgba(144, 205, 255, 1));
-            box-shadow: 0 0 12px rgba(255, 220, 124, 0.42);
-        }
-
-        .chapter-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .chapter-card {
-            position: relative;
-            display: grid;
-            grid-template-columns: 88px minmax(0, 1fr) 132px;
-            gap: 18px;
-            align-items: center;
-            padding: 18px 20px;
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background:
-                linear-gradient(120deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
-                rgba(8, 17, 31, 0.42);
-            overflow: hidden;
-            transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-                        border-color 0.42s ease,
-                        box-shadow 0.42s ease,
-                        background 0.42s ease;
-        }
-
-        .chapter-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(110deg, transparent 0%, rgba(255, 241, 201, 0.04) 42%, transparent 74%),
-                radial-gradient(circle at 85% 50%, rgba(132, 194, 255, 0.12), transparent 22%);
-            opacity: 0;
-            transition: opacity 0.42s ease;
-            pointer-events: none;
-        }
-
-        .chapter-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 239, 191, 0.28);
-            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
-            background: rgba(10, 21, 36, 0.62);
-        }
-
-        .chapter-card:hover::before {
-            opacity: 1;
-        }
-
-        .chapter-no {
-            position: relative;
-            z-index: 1;
-        }
-
-        .chapter-no span {
-            display: block;
-            color: rgba(217, 229, 249, 0.55);
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            margin-bottom: 8px;
-        }
-
-        .chapter-no strong {
-            font-family: 'HeirofLightBold';
-            font-size: 34px;
-            line-height: 1;
-            text-shadow: 0 0 16px rgba(255, 255, 255, 0.16);
-        }
-
-        .chapter-copy {
-            position: relative;
-            z-index: 1;
-        }
-
-        .chapter-copy h3 {
-            font-family: 'HeirofLightBold';
-            font-size: clamp(19px, 1.65vw, 25px);
-            margin-bottom: 6px;
-            line-height: 1.36;
-            text-wrap: balance;
-        }
-
-        .chapter-copy .line {
-            color: rgba(246, 248, 252, 0.84);
-            line-height: 1.82;
-            margin-bottom: 8px;
-            font-size: 14px;
-            max-width: 52ch;
-        }
-
-        .chapter-copy .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            color: rgba(220, 231, 247, 0.64);
-            font-size: 12px;
-            letter-spacing: 0.08em;
-        }
-
-        .chapter-action {
-            position: relative;
-            z-index: 1;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(247, 249, 252, 0.84);
-            white-space: nowrap;
-            font-size: 13px;
-            justify-self: end;
-        }
-
-        .chapter-action::after {
-            content: '↗';
-            font-size: 14px;
-            opacity: 0.76;
-        }
-
-        .closing-note {
-            margin-top: 22px;
-            padding-top: 22px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            color: rgba(224, 232, 243, 0.62);
-            line-height: 1.8;
-            font-size: 14px;
-        }
-
-        @keyframes slowZoom {
-            from {
-                transform: scale(1.08);
-                filter: brightness(0.48);
-            }
-            to {
-                transform: scale(1);
-                filter: brightness(0.86);
-            }
-        }
-
-        @keyframes fadeLift {
-            from {
-                opacity: 0;
-                transform: translateY(60px) scale(1.04);
-                filter: blur(8px);
-            }
-            to {
-                opacity: 0.8;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes moonFloat {
-            0% {
-                transform: scale(1.14) translate(12%, -8%);
-                filter: brightness(0.9);
-            }
-            100% {
-                transform: scale(1.16) translate(9%, -5%);
-                filter: brightness(1.08);
-            }
-        }
-
-        @keyframes cloudShift {
-            0% {
-                transform: scale(1.08) translate3d(0, 0, 0);
-            }
-            50% {
-                transform: scale(1.1) translate3d(18px, -8px, 0);
-            }
-            100% {
-                transform: scale(1.08) translate3d(34px, 6px, 0);
-            }
-        }
-
-        @keyframes starPulse {
-            0% {
-                opacity: 0.36;
-                transform: translateY(0);
-            }
-            100% {
-                opacity: 0.62;
-                transform: translateY(-8px);
-            }
-        }
-
-        @keyframes driftUp {
-            0% {
-                opacity: 0;
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-            15% {
-                opacity: 0.85;
-            }
-            85% {
-                opacity: 0.54;
-            }
-            100% {
-                opacity: 0;
-                transform: translate3d(20px, -108vh, 0) scale(0.42);
-            }
-        }
-
-        @media (max-width: 980px) {
-            .shell {
-                width: min(100% - 28px, 1180px);
-                padding-top: 20px;
-            }
-
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .content {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                order: 2;
-            }
-
-            .chapter-board {
-                order: 1;
-            }
-        }
-
-        @media (orientation: portrait), (max-width: 720px) {
-            header {
-                display: grid;
-                grid-template-columns: auto 1fr auto auto;
-                column-gap: 8px;
-                row-gap: 12px;
-                align-items: center;
-            }
-
-            .menu-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            nav {
-                grid-column: 1 / -1;
-                margin-left: 0;
-                max-height: 0;
-                opacity: 0;
-                overflow: hidden;
-                pointer-events: none;
-                transform: translateY(-8px);
-                transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                            opacity 0.25s ease,
-                            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            }
-
-            .gnb {
-                flex-direction: column;
-                gap: 8px;
-                padding: 10px;
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                background: rgba(7, 15, 28, 0.56);
-                backdrop-filter: blur(18px);
-                -webkit-backdrop-filter: blur(18px);
-                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
-            }
-
-            .gnb li,
-            .gnb a {
-                width: 100%;
-            }
-
-            .gnb a {
-                justify-content: center;
-                padding: 10px 12px;
-                border-radius: 14px;
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-            header.menu-open nav {
-                max-height: 320px;
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateY(0);
-            }
-
-            header.menu-open .menu-toggle {
-                background: rgba(255, 255, 255, 0.16);
-                border-color: rgba(255, 255, 255, 0.7);
-            }
-
-            .hero {
-                padding-top: 6px;
-            }
-
-            .hero h1 {
-                font-size: clamp(28px, 8vw, 40px);
-            }
-
-            .hero-panel .quote {
-                font-size: clamp(17px, 4.2vw, 22px);
-            }
-
-            .chapter-card {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                padding: 18px;
-            }
-
-            .chapter-action {
-                justify-self: start;
-            }
-        }
-
-        @media (max-width: 540px) {
-            .shell {
-                width: calc(100% - 20px);
-                padding-top: 14px;
-                padding-bottom: 36px;
-            }
-
-            .brand {
-                width: 72px;
-            }
-
-            .menu-toggle {
-                min-width: 74px;
-                height: 36px;
-                font-size: 13px;
-                padding: 0 12px;
-            }
-
-            .music-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 17px;
-            }
-
-            .hero p {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-
-            .hero-panel,
-            .sidebar,
-            .chapter-board {
-                border-radius: 24px;
-            }
-
-            .chapter-board {
-                padding: 22px 18px;
-            }
-
-            .board-head {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .chapter-no strong {
-                font-size: 30px;
-            }
-
-            .chapter-copy h3 {
-                font-size: 20px;
-            }
-
-            .glow-stars img {
-                width: 84vw;
-                right: -10%;
-                bottom: 11%;
-                opacity: 0.74;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-    </style>
+    <title>Chapters | 빛의 문장들</title>
+    <link rel="stylesheet" href="subpage-theme.css">
 </head>
-
 <body>
-    <div class="page">
-        <div class="sky">
-            <img src="img/background.png" alt="" class="backdrop">
-            <img src="img/forest.png" alt="" class="forest">
-            <img src="img/moon.png" alt="" class="moon">
-        </div>
-        <div class="mist">
-            <img src="img/minicloud.png" alt="" class="cloud">
-        </div>
-        <div class="glow-stars">
-            <img src="img/jiwon_star2.png" alt="">
-        </div>
-        <div class="particle-field" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+    <div class="subpage">
+        <div class="bg-layer bg-sky"><img src="img/background.png" alt=""></div>
+        <div class="bg-layer bg-cloud"><img src="img/minicloud.png" alt=""></div>
+        <div class="bg-layer bg-moon"><img src="img/moon.png" alt=""></div>
+        <div class="bg-layer bg-forest"><img src="img/forest.png" alt=""></div>
+        <div class="particle-layer" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
 
         <div class="shell">
-            <header>
-                <a href="index.html" class="brand" aria-label="메인으로 이동">
-                    <img src="img/logo.png" alt="">
+            <header class="site-header">
+                <a class="brand" href="index.html" aria-label="빛의 문장들 홈">
+                    <img src="img/logo.png" alt="빛의 문장들">
                 </a>
-                <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
-                <nav id="mainNav">
+                <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+                <nav class="site-nav" id="mainNav" aria-label="주 메뉴">
                     <ul class="gnb">
                         <li><a href="index.html">Prologue</a></li>
                         <li class="active"><a href="chapters.html">Chapters</a></li>
@@ -958,234 +30,128 @@
                         <li><a href="notice.html">Notice</a></li>
                     </ul>
                 </nav>
-                <audio id="bgMusic" src="img/music.mp4" loop></audio>
-                <button class="music-btn" id="musicBtn" aria-label="음악 재생" title="음악 재생/정지">♪</button>
+                <button class="music-btn" id="musicBtn" type="button" aria-label="음악 재생">♪</button>
             </header>
 
-            <section class="hero">
-                <div class="hero-copy">
-                    <div class="eyebrow">CHAPTERS</div>
-                    <h1>달빛 아래 흩어진 문장들</h1>
-                    <p>
-                        이 밤의 이야기는 한 장면씩 천천히 열립니다.
-                        손끝에 닿은 별가루처럼 가볍지만, 오래 남는 문장들로 회차를 고를 수 있게
-                        메인 페이지의 몽환적인 감정을 그대로 이어 둔 보관소입니다.
-                    </p>
-                </div>
-                <aside class="hero-panel">
-                    <div class="label">SERIES INFO</div>
-                    <div class="quote">
-                        “여름밤이 써 내려간 빛의 문장들은,<br>
-                        사라지지 않고 다음 페이지로 번져간다.”
+            <main>
+                <section class="hero">
+                    <div class="hero-copy">
+                        <span class="eyebrow">CHAPTERS</span>
+                        <h1 class="hero-title">달빛 아래,<br>흩어진 문장들</h1>
+                        <p class="hero-desc">
+                            이 밤의 이야기는 한 장면씩 천천히 열립니다. 숨결에 닿은 빛과 오래 머무는 감정을 따라,
+                            회차를 고르듯 다음 문장으로 이어지는 기록을 만나보세요.
+                        </p>
                     </div>
-                    <div class="meta">
-                        <span>총 6화</span>
-                        <span>매주 금요일 연재</span>
-                        <span>몽환 판타지 로맨스</span>
-                    </div>
-                </aside>
-            </section>
-
-            <section class="content">
-                <aside class="sidebar">
-                    <h2>작품 정보</h2>
-                    <p>
-                        달빛이 내려앉은 숲을 배경으로,
-                        잊힌 기억과 남겨진 감정이 천천히 서로를 비추는 몽환 판타지 로맨스입니다.
-                    </p>
-
-                    <div class="sidebar-group">
-                        <h3>연재 정보</h3>
-                        <ul>
-                            <li>시즌 01 · 여름밤의 기록</li>
-                            <li>업데이트 · 매주 금요일</li>
-                            <li>장르 · 몽환 판타지 로맨스</li>
-                        </ul>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <h3>키워드</h3>
-                        <ul>
-                            <li>달빛 · 숲 · 별가루</li>
-                            <li>편지 · 기억 · 잔향</li>
-                            <li>새벽 · 약속 · 이름</li>
-                        </ul>
-                    </div>
-                </aside>
-
-                <div class="chapter-board">
-                    <div class="board-head">
-                        <div>
-                            <h2>Chapter Archive</h2>
-                            <p>밤이 남긴 장면들을 따라, 천천히 다음 문장으로 이어지는 회차들을 만나보세요.</p>
+                    <aside class="hero-note">
+                        <span class="note-label">SERIES INFO</span>
+                        <p class="note-quote">“여름밤이 써 내려간 빛의 문장들은, 사라지지 않고 다음 페이지로 번져간다.”</p>
+                        <div class="note-meta">
+                            <span>총 6화</span>
+                            <span>매주 금요일 연재</span>
                         </div>
-                        <div class="season-chip">Season 01 · 여름밤의 기록</div>
+                        <p class="note-sub">몽환 판타지 로맨스</p>
+                    </aside>
+                </section>
+
+                <section class="page-two-col">
+                    <aside class="sidebar-stack">
+                        <div class="side-block">
+                            <h3>작품 정보</h3>
+                            <div class="soft-divider"></div>
+                            <p>
+                                달빛이 내려앉은 숲을 배경으로, 잊힌 이름과 남겨진 감정이 조용히 서로를 비추는
+                                몽환 판타지 로맨스입니다.
+                            </p>
+                        </div>
+                        <div class="side-block">
+                            <span class="mini-title">연재 정보</span>
+                            <ul>
+                                <li>시즌 01 · 여름밤의 기록</li>
+                                <li>업데이트 · 매주 금요일</li>
+                                <li>장르 · 몽환 판타지 로맨스</li>
+                            </ul>
+                        </div>
+                        <div class="side-block">
+                            <span class="mini-title">키워드</span>
+                            <ul>
+                                <li>#달빛 #숲</li>
+                                <li>#별가루 #편지</li>
+                                <li>#기억 #계절</li>
+                                <li>#약속 #이름</li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <div class="list-area">
+                        <div class="list-header">
+                            <span class="section-title-script">Chapter Archive</span>
+                            <p class="subtext">밤이 남긴 장면들을 따라, 천천히 다음 문장으로 이어지는 회차들을 만나보세요.</p>
+                        </div>
+                        <div class="divider"></div>
+
+                        <div class="text-line-list">
+                            <article class="text-line-item">
+                                <div class="item-no glow">01</div>
+                                <div class="item-main">
+                                    <h3>여름밤의 첫 문장</h3>
+                                    <p>달빛이 처음 숲에 닿던 순간, 이름을 잊은 기억 하나가 조용히 깨어난다.</p>
+                                    <a class="inline-action" href="episode-01.html">읽으러 가기</a>
+                                </div>
+                                <div class="item-meta">2026.05.02</div>
+                            </article>
+
+                            <article class="text-line-item pending">
+                                <div class="item-no">02</div>
+                                <div class="item-main">
+                                    <h3>창가에 머문 푸른 숨</h3>
+                                    <p>열린 문틈 사이로 스미는 푸른 기척은, 한 사람의 이름보다 먼저 마음을 흔든다.</p>
+                                </div>
+                                <div class="item-meta">2026.05.09</div>
+                            </article>
+
+                            <article class="text-line-item pending">
+                                <div class="item-no">03</div>
+                                <div class="item-main">
+                                    <h3>별빛은 대답 대신</h3>
+                                    <p>닿지 못한 문장들은 별빛의 결로 흩어지고, 남겨진 사람은 그 틈에서 의미를 되묻는다.</p>
+                                </div>
+                                <div class="item-meta">2026.05.16</div>
+                            </article>
+
+                            <article class="text-line-item pending">
+                                <div class="item-no">04</div>
+                                <div class="item-main">
+                                    <h3>사라진 계절의 편지</h3>
+                                    <p>봉인된 편지 한 장이 열리던 밤, 지나간 계절이 다시 현재의 온도로 되돌아온다.</p>
+                                </div>
+                                <div class="item-meta">2026.05.23</div>
+                            </article>
+
+                            <article class="text-line-item pending">
+                                <div class="item-no">05</div>
+                                <div class="item-main">
+                                    <h3>새벽이 오기 전의 약속</h3>
+                                    <p>모든 빛이 꺼져 가는 시간, 가장 마지막까지 남아 있던 약속 하나가 새벽을 붙잡는다.</p>
+                                </div>
+                                <div class="item-meta">2026.05.30</div>
+                            </article>
+
+                            <article class="text-line-item pending">
+                                <div class="item-no">06</div>
+                                <div class="item-main">
+                                    <h3>빛의 문장들</h3>
+                                    <p>마침내 다 읽지 못한 마음들이 한 장의 문장으로 겹쳐지고, 밤은 자신의 이름을 되찾는다.</p>
+                                </div>
+                                <div class="item-meta">2026.06.06</div>
+                            </article>
+                        </div>
                     </div>
-
-                    <div class="chapter-list">
-                        <a class="chapter-card" href="episode-01.html">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>01</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>여름밤의 첫 문장</h3>
-                                <div class="line">달빛이 처음 숲에 닿던 순간, 이름을 잊은 기억 하나가 조용히 깨어난다.</div>
-                                <div class="meta">
-                                    <span>2026.05.02</span>
-                                    <span>입장</span>
-                                    <span>달빛 · 숲 · 첫 조우</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">읽으러 가기</div>
-                        </a>
-
-                        <a class="chapter-card" href="#">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>02</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>창가에 머문 푸른 숨</h3>
-                                <div class="line">열어 둔 창문 사이로 스며든 푸른 기척은, 한 사람의 이름보다 먼저 마음을 흔든다.</div>
-                                <div class="meta">
-                                    <span>2026.05.09</span>
-                                    <span>잔향</span>
-                                    <span>창문 · 바람 · 속삭임</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">업데이트 예정</div>
-                        </a>
-
-                        <a class="chapter-card" href="#">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>03</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>별빛은 대답 대신</h3>
-                                <div class="line">닿지 못한 문장들은 별빛의 결로 흩어지고, 남겨진 사람은 그 틈에서 의미를 더듬는다.</div>
-                                <div class="meta">
-                                    <span>2026.05.16</span>
-                                    <span>미답</span>
-                                    <span>별가루 · 침묵 · 기다림</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">업데이트 예정</div>
-                        </a>
-
-                        <a class="chapter-card" href="#">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>04</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>사라진 계절의 편지</h3>
-                                <div class="line">봉인된 편지 한 장이 열리던 밤, 지나간 계절이 다시 현재의 온도로 되돌아온다.</div>
-                                <div class="meta">
-                                    <span>2026.05.23</span>
-                                    <span>회상</span>
-                                    <span>편지 · 봉인 · 계절의 파편</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">업데이트 예정</div>
-                        </a>
-
-                        <a class="chapter-card" href="#">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>05</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>새벽이 오기 전의 약속</h3>
-                                <div class="line">모든 빛이 꺼져 가는 시간, 가장 마지막까지 남아 있던 약속 하나가 새벽을 붙잡는다.</div>
-                                <div class="meta">
-                                    <span>2026.05.30</span>
-                                    <span>약속</span>
-                                    <span>새벽 · 미련 · 잔광</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">업데이트 예정</div>
-                        </a>
-
-                        <a class="chapter-card" href="#">
-                            <div class="chapter-no">
-                                <span>EPISODE</span>
-                                <strong>06</strong>
-                            </div>
-                            <div class="chapter-copy">
-                                <h3>빛의 문장들</h3>
-                                <div class="line">마침내 다 읽지 못한 마음들이 한 장의 문장으로 겹쳐지고, 밤은 자신이 남긴 이름을 되찾는다.</div>
-                                <div class="meta">
-                                    <span>2026.06.06</span>
-                                    <span>완성</span>
-                                    <span>회귀 · 이름 · 밤의 끝</span>
-                                </div>
-                            </div>
-                            <div class="chapter-action">업데이트 예정</div>
-                        </a>
-                    </div>
-
-                </div>
-            </section>
+                </section>
+            </main>
         </div>
     </div>
 
-    <script>
-        const header = document.querySelector('header');
-        const menuToggle = document.getElementById('menuToggle');
-        const mediaQuery = window.matchMedia('(orientation: portrait), (max-width: 720px)');
-        const navLinks = document.querySelectorAll('#mainNav a');
-        const musicBtn = document.getElementById('musicBtn');
-        const bgMusic = document.getElementById('bgMusic');
-
-        function syncMobileMenu() {
-            if (!mediaQuery.matches) {
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }
-        }
-
-        menuToggle.addEventListener('click', () => {
-            if (!mediaQuery.matches) return;
-            const isOpen = header.classList.toggle('menu-open');
-            menuToggle.setAttribute('aria-expanded', String(isOpen));
-        });
-
-        navLinks.forEach((link) => {
-            link.addEventListener('click', () => {
-                if (!mediaQuery.matches) return;
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!mediaQuery.matches || !header.classList.contains('menu-open')) return;
-            if (!header.contains(event.target)) {
-                header.classList.remove('menu-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', syncMobileMenu);
-        } else if (typeof mediaQuery.addListener === 'function') {
-            mediaQuery.addListener(syncMobileMenu);
-        }
-
-        musicBtn.addEventListener('click', () => {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                musicBtn.classList.add('playing');
-                musicBtn.setAttribute('aria-label', '음악 정지');
-            } else {
-                bgMusic.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.setAttribute('aria-label', '음악 재생');
-            }
-        });
-    </script>
+    <script src="subpage.js"></script>
 </body>
-
 </html>

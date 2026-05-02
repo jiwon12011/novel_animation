@@ -661,7 +661,7 @@
         header {
             top: 14px;
             display: grid;
-            grid-template-columns: auto 1fr auto auto;
+            grid-template-columns: auto minmax(0, 1fr) auto;
             align-items: center;
             column-gap: 8px;
             row-gap: 12px;
@@ -670,13 +670,15 @@
 
         header h1 {
             width: 74px;
+            grid-column: 1;
         }
 
         .menu-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            justify-self: start;
+            justify-self: stretch;
+            grid-column: 2;
         }
 
         header nav {
@@ -684,6 +686,7 @@
             left: auto;
             top: auto;
             transform: none;
+            order: 4;
             grid-column: 1 / -1;
             justify-self: stretch;
             width: 100%;
@@ -728,6 +731,8 @@
             width: 38px;
             height: 38px;
             font-size: 17px;
+            grid-column: 3;
+            grid-row: 1;
             justify-self: end;
         }
 
@@ -781,7 +786,7 @@
         header {
             top: 12px;
             display: grid;
-            grid-template-columns: auto 1fr auto auto;
+            grid-template-columns: auto minmax(0, 1fr) auto;
             align-items: center;
             row-gap: 12px;
             column-gap: 8px;
@@ -791,13 +796,15 @@
 
         header h1 {
             width: clamp(56px, 9vw, 74px);
+            grid-column: 1;
         }
 
         .menu-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            justify-self: start;
+            justify-self: stretch;
+            grid-column: 2;
         }
 
         header nav {
@@ -805,6 +812,7 @@
             left: auto;
             top: auto;
             transform: none;
+            order: 4;
             grid-column: 1 / -1;
             justify-self: stretch;
             width: 100%;
@@ -850,6 +858,8 @@
             height: clamp(32px, 4.2vw, 38px);
             font-size: clamp(14px, 2.4vw, 17px);
             margin-right: 0;
+            grid-column: 3;
+            grid-row: 1;
             justify-self: end;
         }
 
