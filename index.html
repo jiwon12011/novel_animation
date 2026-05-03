@@ -162,6 +162,7 @@
         z-index: 1;
         mix-blend-mode: screen;
         opacity: 0;
+        filter: brightness(0.5);
         transform: scale(1.26) translate(-8%, 16%);
         will-change: transform, opacity, filter;
         animation: moonRiseCurve 8.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards,
@@ -169,14 +170,14 @@
     }
 
     @keyframes moonRiseCurve {
-        0%  { transform: scale(1.26) translate(-8%, 16%); opacity: 0; filter: brightness(0.55); }
-        55% { opacity: 0.85; }
-        100%{ transform: scale(1.26) translate(0%, 5%);  opacity: 1; filter: brightness(1); }
+        0%  { transform: scale(1.26) translate(-8%, 16%); opacity: 0; filter: brightness(0.42); }
+        55% { opacity: 0.48; filter: brightness(0.7); }
+        100%{ transform: scale(1.26) translate(0%, 5%);  opacity: 0.72; filter: brightness(0.88); }
     }
 
     @keyframes moonGlow {
-        0%   { filter: brightness(1)   drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
-        100% { filter: brightness(1.2) drop-shadow(0 0 30px rgba(255, 255, 255, 0.7)); }
+        0%   { filter: brightness(0.9)  drop-shadow(0 0 6px rgba(255, 255, 255, 0.12)); }
+        100% { filter: brightness(1.02) drop-shadow(0 0 16px rgba(255, 255, 255, 0.28)); }
     }
 
     .bg_box .bg1 .img5 {
@@ -782,7 +783,7 @@
         }
     }
 
-    @media (orientation: portrait) {
+    @media (orientation: portrait) and (max-width: 960px) {
         header {
             top: 12px;
             display: grid;
@@ -1000,7 +1001,7 @@
         .bg_box .bg1 .img2,
         .bg_box .bg1 .img3,
         .bg_box .bg1 .img5 { opacity: 1; transform: none; filter: none; }
-        .bg_box .bg1 .img4 { opacity: 1; transform: scale(1.3) translate(0%, 5%); filter: brightness(1); }
+        .bg_box .bg1 .img4 { opacity: 0.72; transform: scale(1.3) translate(0%, 5%); filter: brightness(0.88); }
         .textbox li span   { opacity: 1; filter: none; transform: none; letter-spacing: 5px; }
         .right_box img     { opacity: 1; }
         .particles span    { display: none; }
@@ -1123,7 +1124,7 @@
         // ── 음악 토글 ──
         const header = document.querySelector('header');
         const menuToggle = document.getElementById('menuToggle');
-        const mediaQuery = window.matchMedia('(orientation: portrait), (max-width: 720px)');
+        const mediaQuery = window.matchMedia('(max-width: 720px), (orientation: portrait) and (max-width: 960px)');
         const navLinks = document.querySelectorAll('#mainNav a');
         const musicBtn = document.getElementById('musicBtn');
         const bgMusic  = document.getElementById('bgMusic');
