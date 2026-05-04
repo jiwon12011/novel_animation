@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notice | 빛의 문장들</title>
     <link rel="stylesheet" href="subpage-theme.css">
+    <style>
+        .clean-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 24px;
+            margin: 0 0 34px;
+        }
+
+        .clean-head-copy {
+            display: grid;
+            gap: 16px;
+        }
+
+        .clean-head h1 {
+            margin: 0;
+            font-family: 'HeirofLightBold';
+            font-size: clamp(40px, 5.8vw, 76px);
+            line-height: 1.04;
+        }
+
+        .clean-head p {
+            max-width: 34ch;
+            margin: 0;
+            color: rgba(226, 231, 238, 0.78);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            line-height: 1.82;
+        }
+
+        @media (max-width: 720px), (orientation: portrait) and (max-width: 960px) {
+            .clean-head {
+                display: grid;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .clean-head-copy {
+                gap: 12px;
+            }
+
+            .clean-head p {
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="subpage">
@@ -25,8 +71,8 @@
                 <nav class="site-nav" id="mainNav" aria-label="주 메뉴">
                     <ul class="gnb">
                         <li><a href="index.html">Prologue</a></li>
+                        <li><a href="character.html">Character</a></li>
                         <li><a href="chapters.html">Chapters</a></li>
-                        <li><a href="archive.html">Archive</a></li>
                         <li class="active"><a href="notice.html">Notice</a></li>
                     </ul>
                 </nav>
@@ -34,25 +80,12 @@
             </header>
 
             <main>
-                <section class="hero">
-                    <div class="hero-copy">
+                <section class="clean-head">
+                    <div class="clean-head-copy">
                         <span class="eyebrow">NOTICE</span>
-                        <h1 class="hero-title">작가의 메모와 업데이트 기록</h1>
-                        <p class="hero-desc">
-                            새 회차 공개 소식과 연재 리듬, 작품 주변의 짧은 메모들을 한곳에 모았습니다. 사이트의 무드를 해치지 않도록
-                            공지 또한 하나의 기록처럼 읽히도록 정리했습니다.
-                        </p>
+                        <h1>공지 소개</h1>
                     </div>
-                    <aside class="hero-note">
-                        <span class="note-label">AUTHOR'S NOTE</span>
-                        <p class="note-quote">“공지 역시 이 세계의 바깥말이 아니라, 독자에게 건네는 또 하나의 조용한 문장이라고 생각합니다.”</p>
-                        <div class="note-meta">
-                            <span>업데이트</span>
-                            <span>연재 일정</span>
-                            <span>메모</span>
-                        </div>
-                        <p class="note-sub">기록 아카이브</p>
-                    </aside>
+                    <p>업데이트 소식과 연재 일정, 작품 바깥의 짧은 메모들을 조용한 기록처럼 모아둔 페이지입니다.</p>
                 </section>
 
                 <section class="list-area">
@@ -77,8 +110,8 @@
 
                         <article class="notice-item">
                             <div class="notice-meta"><span>OPEN</span><span>2026.05.02</span></div>
-                            <h2>Archive 페이지 오픈</h2>
-                            <p>인물과 공간, 상징과 기록물을 모아 둔 Archive 페이지가 함께 열렸습니다. 본문을 읽은 뒤 천천히 둘러보시면 더 깊게 감상하실 수 있습니다.</p>
+                            <h2>Character 페이지 오픈</h2>
+                            <p>주요 인물들의 능력과 기억, 소속과 아이템을 한눈에 볼 수 있는 Character 페이지가 열렸습니다. 본문을 읽은 뒤 둘러보시면 세계관이 더 선명해집니다.</p>
                         </article>
 
                         <article class="notice-item">

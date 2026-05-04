@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapters | 빛의 문장들</title>
     <link rel="stylesheet" href="subpage-theme.css">
+    <style>
+        .clean-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 24px;
+            margin: 0 0 34px;
+        }
+
+        .clean-head-copy {
+            display: grid;
+            gap: 16px;
+        }
+
+        .clean-head h1 {
+            margin: 0;
+            font-family: 'HeirofLightBold';
+            font-size: clamp(40px, 5.8vw, 76px);
+            line-height: 1.04;
+        }
+
+        .clean-head p {
+            max-width: 34ch;
+            margin: 0;
+            color: rgba(226, 231, 238, 0.78);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            line-height: 1.82;
+        }
+
+        @media (max-width: 720px), (orientation: portrait) and (max-width: 960px) {
+            .clean-head {
+                display: grid;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .clean-head-copy {
+                gap: 12px;
+            }
+
+            .clean-head p {
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="subpage">
@@ -25,8 +71,8 @@
                 <nav class="site-nav" id="mainNav" aria-label="주 메뉴">
                     <ul class="gnb">
                         <li><a href="index.html">Prologue</a></li>
+                        <li><a href="character.html">Character</a></li>
                         <li class="active"><a href="chapters.html">Chapters</a></li>
-                        <li><a href="archive.html">Archive</a></li>
                         <li><a href="notice.html">Notice</a></li>
                     </ul>
                 </nav>
@@ -34,55 +80,15 @@
             </header>
 
             <main>
-                <section class="hero">
-                    <div class="hero-copy">
+                <section class="clean-head">
+                    <div class="clean-head-copy">
                         <span class="eyebrow">CHAPTERS</span>
-                        <h1 class="hero-title">달빛 아래,<br>흩어진 문장들</h1>
-                        <p class="hero-desc">
-                            이 밤의 이야기는 한 장면씩 천천히 열립니다. 숨결에 닿은 빛과 오래 머무는 감정을 따라,
-                            회차를 고르듯 다음 문장으로 이어지는 기록을 만나보세요.
-                        </p>
+                        <h1>챕터 소개</h1>
                     </div>
-                    <aside class="hero-note">
-                        <span class="note-label">SERIES INFO</span>
-                        <p class="note-quote">“여름밤이 써 내려간 빛의 문장들은, 사라지지 않고 다음 페이지로 번져간다.”</p>
-                        <div class="note-meta">
-                            <span>총 6화</span>
-                            <span>매주 금요일 연재</span>
-                        </div>
-                        <p class="note-sub">몽환 판타지 로맨스</p>
-                    </aside>
+                    <p>여름밤의 문장들이 한 회차씩 조용히 이어집니다. 가장 먼저 닿는 장면부터 천천히 읽어 내려가 보세요.</p>
                 </section>
 
                 <section class="page-two-col">
-                    <aside class="sidebar-stack">
-                        <div class="side-block">
-                            <h3>작품 정보</h3>
-                            <div class="soft-divider"></div>
-                            <p>
-                                달빛이 내려앉은 숲을 배경으로, 잊힌 이름과 남겨진 감정이 조용히 서로를 비추는
-                                몽환 판타지 로맨스입니다.
-                            </p>
-                        </div>
-                        <div class="side-block">
-                            <span class="mini-title">연재 정보</span>
-                            <ul>
-                                <li>시즌 01 · 여름밤의 기록</li>
-                                <li>업데이트 · 매주 금요일</li>
-                                <li>장르 · 몽환 판타지 로맨스</li>
-                            </ul>
-                        </div>
-                        <div class="side-block">
-                            <span class="mini-title">키워드</span>
-                            <ul>
-                                <li>#달빛 #숲</li>
-                                <li>#별가루 #편지</li>
-                                <li>#기억 #계절</li>
-                                <li>#약속 #이름</li>
-                            </ul>
-                        </div>
-                    </aside>
-
                     <div class="list-area">
                         <div class="list-header">
                             <span class="section-title-script">Chapter Archive</span>
@@ -147,6 +153,34 @@
                             </article>
                         </div>
                     </div>
+
+                    <aside class="sidebar-stack">
+                        <div class="side-block">
+                            <h3>작품 정보</h3>
+                            <div class="soft-divider"></div>
+                            <p>
+                                달빛이 내려앉은 숲을 배경으로, 잊힌 이름과 남겨진 감정이 조용히 서로를 비추는
+                                몽환 판타지 로맨스입니다.
+                            </p>
+                        </div>
+                        <div class="side-block">
+                            <span class="mini-title">연재 정보</span>
+                            <ul>
+                                <li>시즌 01 · 여름밤의 기록</li>
+                                <li>업데이트 · 매주 금요일</li>
+                                <li>장르 · 몽환 판타지 로맨스</li>
+                            </ul>
+                        </div>
+                        <div class="side-block">
+                            <span class="mini-title">키워드</span>
+                            <ul>
+                                <li>#달빛 #숲</li>
+                                <li>#별가루 #편지</li>
+                                <li>#기억 #계절</li>
+                                <li>#약속 #이름</li>
+                            </ul>
+                        </div>
+                    </aside>
                 </section>
             </main>
         </div>

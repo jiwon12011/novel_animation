@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character | 빛의 문장들</title>
+    <link rel="stylesheet" href="subpage-theme.css">
+    <style>
+        .character-shell {
+            display: grid;
+            gap: 24px;
+        }
+
+        .character-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            align-items: end;
+        }
+
+        .character-head h1 {
+            margin: 0;
+            font-family: 'HeirofLightBold';
+            font-size: clamp(40px, 5.8vw, 76px);
+            line-height: 1.04;
+        }
+
+        .character-head p {
+            max-width: 34ch;
+            margin: 0;
+            color: rgba(226, 231, 238, 0.78);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            line-height: 1.82;
+        }
+
+        .coverflow-stage {
+            position: relative;
+            min-height: 720px;
+            padding: 18px 0 8px;
+        }
+
+        .coverflow-track {
+            position: relative;
+            height: 100%;
+            perspective: 1800px;
+        }
+
+        .cover-card {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            width: min(72vw, 1180px);
+            transform-origin: center center;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 32px 90px rgba(0, 0, 0, 0.28);
+        }
+
+        .cover-card img {
+            width: 100%;
+            display: block;
+        }
+
+        .cover-card::after {
+            content: '';
+            position: absolute;
+            inset: auto 10% -4% 10%;
+            height: 18%;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            filter: blur(18px);
+            pointer-events: none;
+        }
+
+        .cover-card[data-pos="-2"] {
+            transform: translateX(-112%) scale(0.68) rotateY(36deg);
+            opacity: 0.18;
+            filter: blur(2px) brightness(0.72);
+            z-index: 1;
+        }
+
+        .cover-card[data-pos="-1"] {
+            transform: translateX(-82%) scale(0.84) rotateY(26deg);
+            opacity: 0.52;
+            filter: brightness(0.84);
+            z-index: 2;
+        }
+
+        .cover-card[data-pos="0"] {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            z-index: 4;
+        }
+
+        .cover-card[data-pos="1"] {
+            transform: translateX(-18%) scale(0.84) rotateY(-26deg);
+            opacity: 0.52;
+            filter: brightness(0.84);
+            z-index: 2;
+        }
+
+        .cover-card[data-pos="2"] {
+            transform: translateX(12%) scale(0.68) rotateY(-36deg);
+            opacity: 0.18;
+            filter: blur(2px) brightness(0.72);
+            z-index: 1;
+        }
+
+        .cover-arrow {
+            position: absolute;
+            top: 46%;
+            transform: translateY(-50%);
+            z-index: 6;
+            width: 74px;
+            height: 74px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: linear-gradient(180deg, rgba(9, 14, 22, 0.84) 0%, rgba(9, 14, 22, 0.52) 100%);
+            color: rgba(252, 248, 240, 0.98);
+            font-size: 34px;
+            line-height: 1;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24), 0 0 28px rgba(196, 218, 255, 0.12);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .cover-arrow:hover {
+            transform: translateY(-50%) scale(1.06);
+            border-color: rgba(255, 255, 255, 0.42);
+            background: linear-gradient(180deg, rgba(14, 21, 31, 0.94) 0%, rgba(14, 21, 31, 0.66) 100%);
+            box-shadow: 0 22px 46px rgba(0, 0, 0, 0.3), 0 0 34px rgba(231, 214, 165, 0.18);
+        }
+
+        .cover-arrow:active {
+            transform: translateY(-50%) scale(0.98);
+        }
+
+        .cover-arrow.prev {
+            left: 8px;
+        }
+
+        .cover-arrow.next {
+            right: 8px;
+        }
+
+        .cover-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 10px 0;
+        }
+
+        .cover-copy strong {
+            display: block;
+            font-family: 'HeirofLightBold';
+            font-size: 30px;
+            line-height: 1.1;
+        }
+
+        .cover-copy span {
+            color: rgba(226, 231, 238, 0.76);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .cover-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cover-controls button {
+            min-width: 132px;
+            height: 46px;
+            padding: 0 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(7, 11, 17, 0.42);
+            color: #f4f2ec;
+            font-family: 'Pretendard', sans-serif;
+            font-size: 13px;
+        }
+
+        .cover-note {
+            max-width: 620px;
+            margin: 0 auto;
+            padding-top: 4px;
+            text-align: center;
+            color: rgba(226, 231, 238, 0.68);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 13px;
+            line-height: 1.8;
+            text-wrap: balance;
+        }
+
+        @media (max-width: 720px), (orientation: portrait) and (max-width: 960px) {
+            .character-head {
+                display: grid;
+            }
+
+            .coverflow-stage {
+                min-height: 360px;
+            }
+
+            .cover-card {
+                top: 10px;
+                width: min(92vw, 620px);
+                border-radius: 20px;
+            }
+
+            .cover-card[data-pos="-2"],
+            .cover-card[data-pos="2"] {
+                opacity: 0;
+            }
+
+            .cover-card[data-pos="-1"] {
+                transform: translateX(-76%) scale(0.84);
+                opacity: 0.26;
+            }
+
+            .cover-card[data-pos="1"] {
+                transform: translateX(-24%) scale(0.84);
+                opacity: 0.26;
+            }
+
+            .cover-arrow {
+                width: 58px;
+                height: 58px;
+                top: auto;
+                bottom: -6px;
+                transform: none;
+                font-size: 28px;
+            }
+
+            .cover-arrow:hover,
+            .cover-arrow:active {
+                transform: none;
+            }
+
+            .cover-arrow.prev {
+                left: 10px;
+            }
+
+            .cover-arrow.next {
+                right: 10px;
+            }
+
+            .cover-copy strong {
+                font-size: 24px;
+            }
+
+            .cover-controls {
+                display: none;
+            }
+
+            .cover-info {
+                display: grid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="subpage">
+    <div class="bg-layer bg-sky"><img src="img/background.png" alt=""></div>
+    <div class="bg-layer bg-cloud"><img src="img/minicloud.png" alt=""></div>
+    <div class="bg-layer bg-moon"><img src="img/moon.png" alt=""></div>
+    <div class="bg-layer bg-forest"><img src="img/forest.png" alt=""></div>
+    <div class="particle-layer" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <div class="shell">
+        <header class="site-header">
+            <a class="brand" href="index.html" aria-label="빛의 문장들 홈"><img src="img/logo.png" alt="빛의 문장들"></a>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+            <nav class="site-nav" id="mainNav" aria-label="주 메뉴">
+                <ul class="gnb">
+                    <li><a href="index.html">Prologue</a></li>
+                    <li class="active"><a href="character.html">Character</a></li>
+                    <li><a href="chapters.html">Chapters</a></li>
+                    <li><a href="notice.html">Notice</a></li>
+                </ul>
+            </nav>
+            <button class="music-btn" id="musicBtn" type="button" aria-label="음악 재생">♪</button>
+        </header>
+
+        <main class="character-shell">
+            <section class="character-head">
+                <div>
+                    <span class="eyebrow">CHARACTER</span>
+                    <h1>등장인물 소개</h1>
+                </div>
+                <p>달빛 아래 머무는 존재들을 한 장씩 넘겨보며, 이 이야기를 이루는 얼굴들을 천천히 만나보세요.</p>
+            </section>
+
+            <section class="coverflow-stage" aria-label="등장인물 카드 슬라이드">
+                <button class="cover-arrow prev" id="prevCoverStage" type="button" aria-label="이전 카드">‹</button>
+                <button class="cover-arrow next" id="nextCoverStage" type="button" aria-label="다음 카드">›</button>
+                <div class="coverflow-track" id="coverflowTrack">
+                    <article class="cover-card"><img src="img/cha_card1.png" alt="루나"></article>
+                    <article class="cover-card"><img src="img/cha_card2.png" alt="에른"></article>
+                    <article class="cover-card"><img src="img/cha_card3.png" alt="노크스"></article>
+                    <article class="cover-card"><img src="img/cha_card4.png" alt="모르멜"></article>
+                    <article class="cover-card"><img src="img/cha_card5.png" alt="셀레네"></article>
+                </div>
+            </section>
+
+            <div class="cover-info">
+                <div class="cover-copy">
+                    <strong id="coverName">루나</strong>
+                    <span id="coverDesc">달빛을 모으는 소녀</span>
+                </div>
+                <div class="cover-controls">
+                    <button id="prevCover" type="button" aria-label="이전">이전 캐릭터</button>
+                    <button id="nextCover" type="button" aria-label="다음">다음 캐릭터</button>
+                </div>
+            </div>
+
+            <p class="cover-note">카드를 클릭하거나 좌우 화살표를 눌러 다음 등장인물을 볼 수 있습니다.</p>
+        </main>
+    </div>
+</div>
+
+<script src="subpage.js"></script>
+<script>
+const coverItems = [
+  { name: '루나', desc: '달빛을 모으는 소녀' },
+  { name: '에른', desc: '반딧불을 다루는 숲의 수호자' },
+  { name: '노크스', desc: '그림자를 걷는 기록자' },
+  { name: '모르멜', desc: '꿈을 먹는 정령' },
+  { name: '셀레네', desc: '달을 바라보는 사서' }
+];
+
+const cards = [...document.querySelectorAll('.cover-card')];
+const coverName = document.getElementById('coverName');
+const coverDesc = document.getElementById('coverDesc');
+let coverIndex = 0;
+
+function prevCover() {
+  coverIndex = (coverIndex - 1 + cards.length) % cards.length;
+  renderCoverflow();
+}
+
+function nextCover() {
+  coverIndex = (coverIndex + 1) % cards.length;
+  renderCoverflow();
+}
+
+function renderCoverflow() {
+  cards.forEach((card, idx) => {
+    let offset = idx - coverIndex;
+    if (offset > 2) offset -= cards.length;
+    if (offset < -2) offset += cards.length;
+    card.dataset.pos = String(Math.max(-2, Math.min(2, offset)));
+  });
+  coverName.textContent = coverItems[coverIndex].name;
+  coverDesc.textContent = coverItems[coverIndex].desc;
+}
+
+document.getElementById('prevCover').addEventListener('click', prevCover);
+document.getElementById('nextCover').addEventListener('click', nextCover);
+document.getElementById('prevCoverStage').addEventListener('click', prevCover);
+document.getElementById('nextCoverStage').addEventListener('click', nextCover);
+cards.forEach((card, idx) => card.addEventListener('click', () => {
+  coverIndex = idx;
+  renderCoverflow();
+}));
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowLeft') prevCover();
+  if (event.key === 'ArrowRight') nextCover();
+});
+
+renderCoverflow();
+</script>
+</body>
+</html>
