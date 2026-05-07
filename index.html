@@ -877,7 +877,7 @@
         }
 
         .textbox {
-            top: 60%;
+            top: 50%;
             padding: 0 20px;
         }
 
@@ -956,7 +956,7 @@
         }
 
         .textbox {
-            top: 58%;
+            top: 49%;
             padding: 0 14px;
         }
 
@@ -1088,6 +1088,7 @@
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
     <script>
         // ── 마우스 패럴랙스 ──
         const layers = document.querySelectorAll('.parallax-layer');
@@ -1096,6 +1097,155 @@
         let parallaxActive = false;
         const LERP  = 0.07;
         const SHIFT = 30;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const hasGSAP = typeof window.gsap !== 'undefined' && !reduceMotion;
+        const headerEl = document.querySelector('header');
+        const logoEl = document.querySelector('header h1');
+        const navEl = document.querySelector('header nav');
+        const musicBtnEl = document.getElementById('musicBtn');
+        const textBox = document.querySelector('.textbox');
+        const textLines = document.querySelectorAll('.textbox li');
+        const textChars = document.querySelectorAll('.textbox li span');
+        const bgSky = document.querySelector('.img1');
+        const bgForest = document.querySelector('.img2');
+        const bgCloud = document.querySelector('.img3');
+        const bgMoon = document.querySelector('.img4');
+        const starSweep = document.querySelector('.img5');
+        const starLayers = document.querySelectorAll('.right_box img');
+        const particleDots = document.querySelectorAll('.particles span');
+
+        function setupGSAPIntro() {
+            if (!hasGSAP) return;
+
+            window.gsap.set(headerEl, { opacity: 1, clearProps: 'animation' });
+            window.gsap.set(textChars, { clearProps: 'animation' });
+            window.gsap.set(starSweep, { clearProps: 'animation' });
+            window.gsap.set(starLayers, { clearProps: 'animation' });
+            window.gsap.set(particleDots, { clearProps: 'animation' });
+            window.gsap.set([bgSky, bgForest, bgCloud, bgMoon], { clearProps: 'animation' });
+
+            window.gsap.set(headerEl, { autoAlpha: 0, y: -10 });
+            window.gsap.set([logoEl, navEl, musicBtnEl], { autoAlpha: 0, y: 10 });
+            window.gsap.set(textChars, {
+                autoAlpha: 0,
+                y: 18,
+                scale: 1.04,
+                filter: 'blur(8px)',
+                letterSpacing: '12px'
+            });
+            window.gsap.set(starSweep, {
+                autoAlpha: 0,
+                scale: 1.03,
+                filter: 'contrast(1.7) brightness(0.72) blur(10px)'
+            });
+            window.gsap.set(starLayers, { autoAlpha: 0 });
+            window.gsap.set(particleDots, { autoAlpha: 0 });
+
+            const intro = window.gsap.timeline({ defaults: { ease: 'power3.out' } });
+            intro
+                .to(headerEl, { autoAlpha: 1, y: 0, duration: 1.1 }, 0.2)
+                .to([logoEl, navEl, musicBtnEl], { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08 }, 0.35)
+                .to(bgSky, { scale: 1, filter: 'brightness(0.9)', duration: 6.5, ease: 'power2.out' }, 0)
+                .fromTo(bgForest,
+                    { autoAlpha: 0, y: 72, scale: 1.06, filter: 'blur(8px)' },
+                    { autoAlpha: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 2.8 },
+                    0.35
+                )
+                .fromTo(bgCloud,
+                    { autoAlpha: 0, y: 24, scale: 1.05 },
+                    { autoAlpha: 1, y: 0, scale: 1, duration: 4.8 },
+                    0.8
+                )
+                .fromTo(bgMoon,
+                    { autoAlpha: 0, xPercent: -8, yPercent: 16, scale: 1.26, filter: 'brightness(0.42)' },
+                    { autoAlpha: 0.72, xPercent: 0, yPercent: 5, scale: 1.26, filter: 'brightness(0.88)', duration: 8.5, ease: 'power2.out' },
+                    0.3
+                )
+                .to(textChars, {
+                    autoAlpha: 1,
+                    y: 0,
+                    scale: 1,
+                    filter: 'blur(0px)',
+                    letterSpacing: '5px',
+                    duration: 1.2,
+                    stagger: 0.12
+                }, 1.45)
+                .to(starSweep, {
+                    autoAlpha: 0.7,
+                    scale: 1,
+                    filter: 'contrast(1.45) brightness(0.54) blur(0px)',
+                    duration: 2.2
+                }, 2.65)
+                .to(starLayers, {
+                    autoAlpha: (index) => index === 0 ? 1 : index === 1 ? 0.68 : 0.92,
+                    duration: 1.4,
+                    stagger: 0.2
+                }, 4.2)
+                .to(particleDots, {
+                    autoAlpha: 1,
+                    duration: 1,
+                    stagger: 0.08
+                }, 4.6);
+
+            window.gsap.to(textChars, {
+                textShadow: '0 0 16px rgba(255, 250, 220, 0.72), 0 0 36px rgba(255, 236, 155, 0.55), 0 0 56px rgba(255, 196, 78, 0.28)',
+                duration: 1.25,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: {
+                    each: 0.1,
+                    repeatDelay: 0.2
+                },
+                delay: 4.8
+            });
+
+            window.gsap.to(starLayers, {
+                opacity: (index) => index === 0 ? 1 : index === 1 ? 0.68 : 0.92,
+                filter: (index) => index === 2 ? 'brightness(1.35)' : 'brightness(1)',
+                duration: (index) => 6.5 + index,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: 0
+            });
+
+            window.gsap.to(bgCloud, {
+                x: 16,
+                y: 4,
+                scale: 1.01,
+                duration: 14,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: 5.6
+            });
+        }
+
+        function setupGSAPParallax() {
+            if (!hasGSAP || window.matchMedia('(max-width: 960px)').matches) return;
+
+            const moveSkyX = window.gsap.quickTo(bgSky, 'x', { duration: 1.8, ease: 'power3.out' });
+            const moveSkyY = window.gsap.quickTo(bgSky, 'y', { duration: 1.8, ease: 'power3.out' });
+            const moveForestX = window.gsap.quickTo(bgForest, 'x', { duration: 1.5, ease: 'power3.out' });
+            const moveForestY = window.gsap.quickTo(bgForest, 'y', { duration: 1.5, ease: 'power3.out' });
+            const moveCloudX = window.gsap.quickTo(bgCloud, 'x', { duration: 2.2, ease: 'power3.out' });
+            const moveCloudY = window.gsap.quickTo(bgCloud, 'y', { duration: 2.2, ease: 'power3.out' });
+            const moveMoonX = window.gsap.quickTo(bgMoon, 'x', { duration: 2.4, ease: 'power3.out' });
+            const moveMoonY = window.gsap.quickTo(bgMoon, 'y', { duration: 2.4, ease: 'power3.out' });
+            const moveStarsX = window.gsap.quickTo(starSweep, 'x', { duration: 2, ease: 'power3.out' });
+            const moveStarsY = window.gsap.quickTo(starSweep, 'y', { duration: 2, ease: 'power3.out' });
+
+            document.addEventListener('pointermove', (e) => {
+                const x = (e.clientX / window.innerWidth) - 0.5;
+                const y = (e.clientY / window.innerHeight) - 0.5;
+                moveSkyX(x * -12); moveSkyY(y * -10);
+                moveForestX(x * -8); moveForestY(y * -6);
+                moveCloudX(x * -18); moveCloudY(y * -12);
+                moveMoonX(x * 14); moveMoonY(y * 10);
+                moveStarsX(x * -14); moveStarsY(y * -10);
+            });
+        }
 
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
@@ -1120,6 +1270,8 @@
 
         // 인트로 애니메이션 완료 후 패럴랙스 활성화
         setTimeout(() => { parallaxActive = true; }, 7600);
+        setupGSAPIntro();
+        setupGSAPParallax();
 
         // ── 음악 토글 ──
         const header = document.querySelector('header');
@@ -1128,6 +1280,25 @@
         const navLinks = document.querySelectorAll('#mainNav a');
         const musicBtn = document.getElementById('musicBtn');
         const bgMusic  = document.getElementById('bgMusic');
+        const STORAGE_KEY_PLAYING = 'bgMusicPlaying';
+        const STORAGE_KEY_TIME = 'bgMusicCurrentTime';
+
+        function syncMusicButton() {
+            const isPlaying = !bgMusic.paused;
+            musicBtn.classList.toggle('playing', isPlaying);
+            musicBtn.setAttribute('aria-label', isPlaying ? '음악 정지' : '음악 재생');
+        }
+
+        function saveMusicState() {
+            sessionStorage.setItem(STORAGE_KEY_PLAYING, String(!bgMusic.paused));
+            sessionStorage.setItem(STORAGE_KEY_TIME, String(bgMusic.currentTime || 0));
+        }
+
+        const savedTime = Number(sessionStorage.getItem(STORAGE_KEY_TIME) || '0');
+
+        if (savedTime > 0) {
+            bgMusic.currentTime = savedTime;
+        }
 
         function syncMobileMenu() {
             if (!mediaQuery.matches) {
@@ -1145,6 +1316,7 @@
         navLinks.forEach((link) => {
             link.addEventListener('click', () => {
                 if (!mediaQuery.matches) return;
+                saveMusicState();
                 header.classList.remove('menu-open');
                 menuToggle.setAttribute('aria-expanded', 'false');
             });
@@ -1166,15 +1338,40 @@
 
         musicBtn.addEventListener('click', () => {
             if (bgMusic.paused) {
-                bgMusic.play();
-                musicBtn.classList.add('playing');
-                musicBtn.setAttribute('aria-label', '음악 정지');
+                bgMusic.play().then(() => {
+                    saveMusicState();
+                    syncMusicButton();
+                }).catch(() => {
+                    syncMusicButton();
+                });
             } else {
                 bgMusic.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.setAttribute('aria-label', '음악 재생');
+                saveMusicState();
+                syncMusicButton();
             }
         });
+
+        bgMusic.addEventListener('play', () => {
+            saveMusicState();
+            syncMusicButton();
+        });
+
+        bgMusic.addEventListener('pause', () => {
+            saveMusicState();
+            syncMusicButton();
+        });
+
+        window.addEventListener('beforeunload', saveMusicState);
+
+        if (sessionStorage.getItem(STORAGE_KEY_PLAYING) === 'true') {
+            bgMusic.play().then(() => {
+                syncMusicButton();
+            }).catch(() => {
+                syncMusicButton();
+            });
+        } else {
+            syncMusicButton();
+        }
     </script>
 </body>
 
