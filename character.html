@@ -207,6 +207,54 @@
             transform: translateY(0);
         }
 
+        .cover-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .cover-nav-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(12, 16, 26, 0.5);
+            color: rgba(230, 234, 241, 0.7);
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+        }
+
+        .cover-nav-item .cover-nav-no {
+            font-family: 'HeirofLightBold';
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: rgba(226, 231, 238, 0.4);
+            transition: color 0.25s ease;
+        }
+
+        .cover-nav-item:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .cover-nav-item.active {
+            color: #fff;
+            border-color: rgba(241, 222, 160, 0.55);
+            background: rgba(241, 222, 160, 0.1);
+        }
+
+        .cover-nav-item.active .cover-nav-no {
+            color: rgba(241, 222, 160, 0.92);
+        }
+
         .cover-note {
             max-width: 620px;
             margin: 0 auto;
@@ -217,6 +265,14 @@
             font-size: 13px;
             line-height: 1.8;
             text-wrap: balance;
+        }
+
+        @media (max-width: 720px), (orientation: portrait) and (max-width: 960px) {
+            .cover-nav-item {
+                min-height: 36px;
+                padding: 7px 14px;
+                font-size: 13px;
+            }
         }
 
         @media (max-width: 720px), (orientation: portrait) and (max-width: 960px) {
@@ -377,7 +433,15 @@
                 </div>
             </div>
 
-            <p class="cover-note">카드를 클릭하거나 좌우 화살표를 눌러 다음 등장인물을 볼 수 있습니다.</p>
+            <nav class="cover-nav" id="coverNav" aria-label="등장인물 바로가기">
+                <button class="cover-nav-item" type="button" data-index="0"><span class="cover-nav-no">01</span>루나</button>
+                <button class="cover-nav-item" type="button" data-index="1"><span class="cover-nav-no">02</span>에른</button>
+                <button class="cover-nav-item" type="button" data-index="2"><span class="cover-nav-no">03</span>노크스</button>
+                <button class="cover-nav-item" type="button" data-index="3"><span class="cover-nav-no">04</span>모르멜</button>
+                <button class="cover-nav-item" type="button" data-index="4"><span class="cover-nav-no">05</span>셀레네</button>
+            </nav>
+
+            <p class="cover-note">이름을 누르거나 카드를 클릭, 좌우 화살표(←/→)로 등장인물을 넘겨볼 수 있습니다.</p>
         </main>
     </div>
 </div>
@@ -402,6 +466,7 @@ const heroBody = document.querySelector('.character-head p');
 const coverStage = document.querySelector('.coverflow-stage');
 const coverInfo = document.querySelector('.cover-info');
 const coverNote = document.querySelector('.cover-note');
+const coverNavItems = [...document.querySelectorAll('.cover-nav-item')];
 const skyImage = document.querySelector('.bg-sky img');
 const cloudImage = document.querySelector('.bg-cloud img');
 const moonImage = document.querySelector('.bg-moon img');
@@ -567,6 +632,11 @@ function renderCoverflow() {
   });
   coverName.textContent = coverItems[coverIndex].name;
   coverDesc.textContent = coverItems[coverIndex].desc;
+  coverNavItems.forEach((item, idx) => {
+    const isActive = idx === coverIndex;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-current', isActive ? 'true' : 'false');
+  });
   animateCoverState();
 }
 
@@ -575,6 +645,11 @@ document.getElementById('nextCover').addEventListener('click', nextCover);
 document.getElementById('prevCoverStage').addEventListener('click', prevCover);
 document.getElementById('nextCoverStage').addEventListener('click', nextCover);
 cards.forEach((card, idx) => card.addEventListener('click', () => {
+  coverIndex = idx;
+  renderCoverflow();
+}));
+
+coverNavItems.forEach((item, idx) => item.addEventListener('click', () => {
   coverIndex = idx;
   renderCoverflow();
 }));
