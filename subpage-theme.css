@@ -2028,6 +2028,91 @@ img {
     100% { opacity: 0; transform: translate3d(-90vw, 38vh, 0) rotate(-23deg); }
 }
 
+/* ───────────── 상호작용 · 가독성 폴리시 ───────────── */
+
+/* 챕터 리스트 hover */
+.text-line-item:hover {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 58%, transparent 100%);
+}
+
+.item-no {
+    transition: color 0.28s ease, text-shadow 0.28s ease;
+}
+
+.text-line-item:hover .item-no {
+    color: rgba(255, 240, 212, 0.98);
+    text-shadow: 0 0 18px rgba(255, 226, 142, 0.28);
+}
+
+.item-main h3 {
+    transition: color 0.25s ease;
+}
+
+.text-line-item:hover .item-main h3 {
+    color: #fff;
+}
+
+/* 인라인 액션 링크(읽으러 가기 / 목록으로 등) */
+.inline-action {
+    transition: color 0.25s ease;
+}
+
+.inline-action::after {
+    transition: transform 0.25s ease;
+}
+
+.inline-action:hover {
+    color: #fff;
+}
+
+.inline-action:hover::after {
+    transform: translateX(5px);
+}
+
+/* 공지 카드 hover */
+.notice-item h2,
+.archive-card h2 {
+    transition: color 0.25s ease;
+}
+
+.notice-item:hover,
+.archive-card:hover {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 70%, transparent 100%);
+}
+
+.notice-item:hover h2,
+.archive-card:hover h2 {
+    color: #fff;
+}
+
+/* 에피소드 본문 가독성 — 드롭캡 */
+.reader-lead::first-letter {
+    float: left;
+    margin: 8px 16px 0 0;
+    font-family: 'HeirofLightBold';
+    font-size: 3.1em;
+    line-height: 0.82;
+    color: rgba(246, 231, 197, 0.97);
+    text-shadow: 0 0 22px rgba(255, 226, 142, 0.22);
+}
+
+/* 에피소드 본문 — 풀쿼트 강조 */
+.reader-quote {
+    padding: 8px 0 8px 22px;
+    border-left: 2px solid rgba(239, 223, 167, 0.5);
+    border-radius: 0 12px 12px 0;
+    background: linear-gradient(90deg, rgba(239, 223, 167, 0.055) 0%, transparent 82%);
+}
+
+/* 본문 하단 액션 링크 */
+.footer-actions a {
+    transition: color 0.25s ease;
+}
+
+.footer-actions a:hover {
+    color: #fff;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
