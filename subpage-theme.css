@@ -2158,8 +2158,8 @@ img {
 
 /* ── 에피소드 본문: 한 컬럼, 넓게, 큰 행간 ── */
 .detail-wrap {
-    width: min(100%, 720px);
-    padding: 38px clamp(22px, 4.5vw, 52px) 16px;
+    width: min(100%, 940px);
+    padding: 40px clamp(26px, 5vw, 64px) 18px;
 }
 
 .reader-body,
