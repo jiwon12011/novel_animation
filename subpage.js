@@ -1,3 +1,35 @@
+// ── 장식 레이어 주입 (별똥별 + 천체 블룸 + 추가 반딧불) ──
+(function injectDecor() {
+    const subpage = document.querySelector('.subpage');
+    if (!subpage) return;
+
+    // 천체 블룸 (배경 뒤)
+    if (!subpage.querySelector('.celestial-glow')) {
+        const glow = document.createElement('div');
+        glow.className = 'celestial-glow';
+        glow.setAttribute('aria-hidden', 'true');
+        subpage.prepend(glow);
+    }
+
+    // 별똥별 (콘텐츠 shell 아래)
+    if (!subpage.querySelector('.shooting-stars')) {
+        const stars = document.createElement('div');
+        stars.className = 'shooting-stars';
+        stars.setAttribute('aria-hidden', 'true');
+        stars.innerHTML = '<span class="shooting-star"></span><span class="shooting-star"></span><span class="shooting-star"></span>';
+        const shell = subpage.querySelector('.shell');
+        subpage.insertBefore(stars, shell || null);
+    }
+
+    // 반딧불 입자 6 → 12개로 보강
+    const layer = subpage.querySelector('.particle-layer');
+    if (layer) {
+        for (let i = layer.querySelectorAll('span').length; i < 12; i++) {
+            layer.appendChild(document.createElement('span'));
+        }
+    }
+})();
+
 const siteHeader = document.querySelector('.site-header');
 const menuToggle = document.getElementById('menuToggle');
 const mediaQuery = window.matchMedia('(max-width: 720px), (orientation: portrait) and (max-width: 960px)');

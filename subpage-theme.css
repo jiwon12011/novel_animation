@@ -1921,6 +1921,113 @@ img {
     }
 }
 
+/* ─── 추가 반딧불 입자 (풍성하게) ─── */
+.particle-layer span:nth-child(7) {
+    left: 15%; width: 2px; height: 2px; --dur: 12.8s; --delay: 6.5s;
+    background: radial-gradient(circle, rgba(232, 240, 255, 1) 0%, transparent 72%);
+    box-shadow: 0 0 6px 2px rgba(170, 199, 255, 0.22);
+}
+.particle-layer span:nth-child(8) {
+    left: 31%; width: 4px; height: 4px; --dur: 15s; --delay: 3.4s;
+    background: radial-gradient(circle, rgba(255, 243, 210, 0.85) 0%, rgba(255, 210, 110, 0) 72%);
+    box-shadow: 0 0 13px 4px rgba(255, 212, 112, 0.30);
+}
+.particle-layer span:nth-child(9) {
+    left: 48%; width: 2px; height: 2px; --dur: 10.6s; --delay: 7.8s;
+    background: radial-gradient(circle, rgba(255, 247, 224, 1) 0%, transparent 70%);
+    box-shadow: 0 0 6px 2px rgba(255, 218, 126, 0.24);
+}
+.particle-layer span:nth-child(10) {
+    left: 64%; width: 5px; height: 5px; --dur: 16.5s; --delay: 1.8s;
+    background: radial-gradient(circle, rgba(200, 225, 255, 0.7) 0%, rgba(160, 200, 255, 0) 72%);
+    box-shadow: 0 0 15px 5px rgba(170, 205, 255, 0.26);
+}
+.particle-layer span:nth-child(11) {
+    left: 80%; width: 3px; height: 3px; --dur: 11.8s; --delay: 9s;
+    background: radial-gradient(circle, rgba(255, 243, 214, 1) 0%, rgba(255, 218, 120, 0) 72%);
+    box-shadow: 0 0 9px 3px rgba(255, 216, 118, 0.26);
+}
+.particle-layer span:nth-child(12) {
+    left: 94%; width: 2px; height: 2px; --dur: 13.6s; --delay: 4.6s;
+    background: radial-gradient(circle, rgba(232, 240, 255, 1) 0%, transparent 72%);
+    box-shadow: 0 0 6px 2px rgba(170, 199, 255, 0.22);
+}
+
+/* ─── 천체 블룸 (상단 빛 번짐) ─── */
+.celestial-glow {
+    position: absolute;
+    left: 50%;
+    top: -14%;
+    width: 120vw;
+    height: 70vh;
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(ellipse 42% 52% at 50% 42%,
+        rgba(150, 195, 255, 0.14) 0%,
+        rgba(120, 160, 255, 0.04) 55%,
+        transparent 72%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: glowFade 4s ease 1.2s forwards,
+               glowPulse 9s ease-in-out 5.4s infinite alternate;
+}
+
+@keyframes glowFade { to { opacity: 1; } }
+@keyframes glowPulse {
+    0%   { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    100% { opacity: 1;   transform: translateX(-50%) scale(1.07); }
+}
+
+/* ─── 별똥별 ─── */
+.shooting-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transform: rotate(-23deg);
+    will-change: transform, opacity;
+}
+
+.shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 180px;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(190, 215, 255, 0.32) 45%,
+        transparent 100%);
+    filter: blur(0.4px);
+}
+
+.shooting-star:nth-child(1) { left: 66%; top: 9%;  animation: shoot 10s ease-in 5s  infinite; }
+.shooting-star:nth-child(2) { left: 86%; top: 20%; animation: shoot 14s ease-in 12s infinite; }
+.shooting-star:nth-child(3) { left: 52%; top: 5%;  animation: shoot 17s ease-in 19s infinite; }
+
+@keyframes shoot {
+    0%   { opacity: 0; transform: translate3d(0, 0, 0) rotate(-23deg); }
+    4%   { opacity: 1; }
+    13%  { opacity: 1; }
+    26%  { opacity: 0; transform: translate3d(-90vw, 38vh, 0) rotate(-23deg); }
+    100% { opacity: 0; transform: translate3d(-90vw, 38vh, 0) rotate(-23deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1928,4 +2035,7 @@ img {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+
+    .shooting-stars { display: none; }
+    .celestial-glow { opacity: 0.3; animation: none; }
 }
