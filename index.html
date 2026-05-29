@@ -305,7 +305,7 @@
     }
 
     header h1 {
-        width: 100px;
+        width: 92px;
         flex-shrink: 0;
     }
 
@@ -331,59 +331,41 @@
     }
 
     header nav {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+        margin-left: auto;
     }
 
     header nav .gnb {
         display: flex;
-        gap: 8px;
+        align-items: center;
+        gap: 14px;
     }
 
     header nav .gnb li {
-        font-size: 22px;
-        transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-                    opacity 0.38s ease,
-                    filter 0.38s ease;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+        font-size: 17px;
     }
 
     header nav .gnb li a {
-        color: #e4e4e4;
-        display: flex;
-        padding: 10px 30px;
-        transition: color 0.38s ease, text-shadow 0.38s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 6px 10px;
+        color: rgba(240, 242, 246, 0.82);
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.85);
+        transition: color 0.3s ease, opacity 0.3s ease;
     }
 
-    header nav .gnb:hover li {
-        transform: scale(0.94);
-        opacity: 0.78;
-        filter: saturate(0.85);
-    }
-
-    header nav .gnb li:hover {
-        transform: scale(1.06) translateY(-1px);
-        opacity: 1;
-        filter: saturate(1);
-    }
-
-    header nav .gnb li:hover a {
+    header nav .gnb li a:hover {
         color: #fff;
-        text-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
     }
 
     /* 음악 토글 버튼 */
     .music-btn {
         width: 44px;
         height: 44px;
-        margin-right: 6px;
         border-radius: 50%;
-        border: 1.5px solid rgba(255, 255, 255, 0.5);
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+        border: 1.5px solid rgba(255, 255, 255, 0.6);
+        background: transparent;
         color: #fff;
         font-size: 20px;
         cursor: pointer;
@@ -396,9 +378,9 @@
     }
 
     .music-btn:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.9);
-        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.92);
+        transform: scale(1.04);
     }
 
     .music-btn.playing {
