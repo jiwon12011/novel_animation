@@ -180,7 +180,7 @@
         100% { filter: brightness(1.02) drop-shadow(0 0 16px rgba(255, 255, 255, 0.28)); }
     }
 
-    /* ─── 별빛 촤라라 (모션 버스트) ─── */
+    /* ─── 별빛 촤르르 (글씨와 함께 좌→우로 번짐) ─── */
     .bg_box .bg1 .starburst {
         position: absolute;
         left: 50%;
@@ -202,10 +202,10 @@
         height: var(--size, 4px);
         margin: calc(var(--size, 4px) / -2);
         opacity: 0;
-        transform: translate(0, 0) scale(0.12);
+        transform: translate(var(--tx), calc(var(--ty) + 18px)) scale(0.2);
         will-change: transform, opacity;
-        animation: sparkFly var(--dur, 2.2s) cubic-bezier(0.18, 0.7, 0.24, 1) var(--delay, 2.65s) forwards,
-                   sparkTwinkle var(--tw, 3.4s) ease-in-out calc(var(--delay, 2.65s) + var(--dur, 2.2s)) infinite alternate;
+        animation: sparkArrive var(--dur, 0.8s) cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 1.5s) forwards,
+                   sparkTwinkle var(--tw, 3.4s) ease-in-out calc(var(--delay, 1.5s) + var(--dur, 0.8s)) infinite alternate;
     }
 
     /* 별 코어 (둥근 빛망울) */
@@ -239,14 +239,15 @@
         pointer-events: none;
     }
 
-    @keyframes sparkFly {
+    /* 글자가 등장하는 흐름을 따라 제자리에서 촤르르 켜짐 */
+    @keyframes sparkArrive {
         0% {
             opacity: 0;
-            transform: translate(0, 0) scale(0.12);
+            transform: translate(var(--tx), calc(var(--ty) + 18px)) scale(0.2);
         }
-        14% {
+        45% {
             opacity: 1;
-            transform: translate(calc(var(--tx) * 0.16), calc(var(--ty) * 0.16)) scale(1.35);
+            transform: translate(var(--tx), calc(var(--ty) - 4px)) scale(1.4);
         }
         100% {
             opacity: var(--end, 0.85);
@@ -1287,28 +1288,33 @@
         const starLayers = document.querySelectorAll('.right_box img');
         const particleDots = document.querySelectorAll('.particles span');
 
-        // 별빛 촤라라: 중앙에서 부채꼴로 퍼지는 스파클 입자를 생성
+        // 별빛 촤르르: 글자가 좌→우로 등장하는 흐름을 따라 글씨 위로 번지는 스파클
         function buildStarburst() {
             if (!starBurst) return;
-            const COUNT = reduceMotion ? 26 : 60;
-            // 따뜻한 금빛 / 맑은 은빛 두 가지 색감
+            const COUNT = reduceMotion ? 28 : 66;
+            // 따뜻한 금빛 / 살구빛 / 맑은 은빛
             const PALETTES = [
-                { core: 'rgba(255, 243, 198, 0.95)', halo: 'rgba(255, 206, 116, 0.45)' }, // 금빛
-                { core: 'rgba(255, 248, 226, 0.95)', halo: 'rgba(255, 224, 158, 0.4)'  }, // 살구빛
-                { core: 'rgba(232, 244, 255, 0.95)', halo: 'rgba(168, 206, 255, 0.4)'  }  // 은빛
+                { core: 'rgba(255, 243, 198, 0.95)', halo: 'rgba(255, 206, 116, 0.45)' },
+                { core: 'rgba(255, 248, 226, 0.95)', halo: 'rgba(255, 224, 158, 0.4)'  },
+                { core: 'rgba(232, 244, 255, 0.95)', halo: 'rgba(168, 206, 255, 0.4)'  }
             ];
+            // 글씨가 차지하는 가로 폭 / 두 줄 세로 폭 (글자 등장 좌표와 맞춤)
+            const SPAN_X = 560;   // 좌우 반폭
+            const SPAN_Y = 170;   // 상하 반폭
+            // 글자 등장 타이밍(첫 글자 1.45s → 마지막 ~3.1s)에 맞춘 좌→우 스윕
+            const SWEEP_START = 1.4;
+            const SWEEP_SPAN = 1.8;
             let html = '';
             for (let i = 0; i < COUNT; i++) {
-                // 황금각으로 고르게 + 약간의 흔들림 → 자연스러운 부채꼴
-                const angle = i * 2.39996 + (Math.random() - 0.5) * 0.4;
-                const dist = 90 + Math.pow(Math.random(), 0.7) * 430;   // 중앙은 촘촘, 바깥은 듬성
-                const tx = Math.cos(angle) * dist;
-                const ty = Math.sin(angle) * dist * 0.62;               // 세로를 눌러 가로로 넓게 펼침
-                const hero = Math.random() < 0.32;                      // 큰 별 (글린트 있음)
+                const fx = Math.random();                               // 0(왼쪽) → 1(오른쪽)
+                const tx = (fx * 2 - 1) * SPAN_X;
+                const ty = (Math.random() * 2 - 1) * SPAN_Y;
+                const hero = Math.random() < 0.34;                      // 큰 별 (글린트)
                 const size = hero ? (5 + Math.random() * 6) : (1.6 + Math.random() * 3.4);
-                const end = (hero ? 0.7 : 0.45) + Math.random() * 0.3;
-                const dur = 1.7 + Math.random() * 1.6;
-                const delay = 2.6 + Math.random() * 0.8;                // 시차를 둬 차르르 번지게
+                const end = (hero ? 0.72 : 0.45) + Math.random() * 0.3;
+                const dur = 0.62 + Math.random() * 0.5;                 // 또르르 켜지는 짧은 등장
+                // x 위치에 비례한 딜레이 → 글씨와 함께 좌에서 우로 촤르르
+                const delay = SWEEP_START + fx * SWEEP_SPAN + Math.random() * 0.22;
                 const tw = 2.6 + Math.random() * 2.8;
                 const pal = PALETTES[(Math.random() * PALETTES.length) | 0];
                 const rot = (Math.random() * 90) | 0;
