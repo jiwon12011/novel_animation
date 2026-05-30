@@ -208,33 +208,32 @@
                    sparkTwinkle var(--tw, 3.4s) ease-in-out calc(var(--delay, 1.5s) + var(--dur, 0.8s)) infinite alternate;
     }
 
-    /* 별 코어 (둥근 빛망울) */
+    /* 별 코어 (둥근 빛망울) — 은은하게 */
     .starburst .spark::after {
         content: '';
         position: absolute;
         inset: 0;
         border-radius: 50%;
         background: radial-gradient(circle,
-            #ffffff 0%,
-            var(--core, rgba(255, 244, 200, 0.95)) 34%,
-            var(--halo, rgba(255, 210, 120, 0.4)) 62%,
-            rgba(255, 200, 90, 0) 80%);
-        box-shadow: 0 0 6px 1px rgba(255, 242, 200, 0.8),
-                    0 0 14px 3px var(--halo, rgba(255, 210, 120, 0.4));
+            rgba(255, 252, 235, 0.92) 0%,
+            var(--core, rgba(255, 238, 180, 0.8)) 38%,
+            var(--halo, rgba(255, 214, 120, 0.3)) 66%,
+            rgba(255, 205, 100, 0) 82%);
+        box-shadow: 0 0 5px 1px var(--halo, rgba(255, 220, 140, 0.35));
     }
 
-    /* 4갈래 별빛 글린트 (큰 별에만) */
+    /* 4갈래 별빛 글린트 (큰 별에만) — 가늘고 옅게 */
     .starburst .spark::before {
         content: '';
         position: absolute;
         left: 50%;
         top: 50%;
-        width: calc(var(--size, 4px) * 7);
-        height: calc(var(--size, 4px) * 7);
+        width: calc(var(--size, 4px) * 5.5);
+        height: calc(var(--size, 4px) * 5.5);
         transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
         background:
-            radial-gradient(closest-side, rgba(255, 250, 228, 0.95), rgba(255, 250, 228, 0) 72%) center / 100% 9% no-repeat,
-            radial-gradient(closest-side, rgba(255, 250, 228, 0.95), rgba(255, 250, 228, 0) 72%) center / 9% 100% no-repeat;
+            radial-gradient(closest-side, rgba(255, 244, 198, 0.7), rgba(255, 244, 198, 0) 70%) center / 100% 7% no-repeat,
+            radial-gradient(closest-side, rgba(255, 244, 198, 0.7), rgba(255, 244, 198, 0) 70%) center / 7% 100% no-repeat;
         opacity: var(--glint, 0);
         pointer-events: none;
     }
@@ -245,19 +244,19 @@
             opacity: 0;
             transform: translate(var(--tx), calc(var(--ty) + 18px)) scale(0.2);
         }
-        45% {
-            opacity: 1;
-            transform: translate(var(--tx), calc(var(--ty) - 4px)) scale(1.4);
+        50% {
+            opacity: var(--end, 0.6);
+            transform: translate(var(--tx), calc(var(--ty) - 2px)) scale(1.12);
         }
         100% {
-            opacity: var(--end, 0.85);
+            opacity: var(--end, 0.6);
             transform: translate(var(--tx), var(--ty)) scale(1);
         }
     }
 
     @keyframes sparkTwinkle {
-        0%   { opacity: calc(var(--end, 0.85) * 0.35); transform: translate(var(--tx), var(--ty)) scale(0.92); }
-        100% { opacity: var(--end, 0.85);              transform: translate(var(--tx), var(--ty)) scale(1.06); }
+        0%   { opacity: calc(var(--end, 0.6) * 0.5); transform: translate(var(--tx), var(--ty)) scale(0.95); }
+        100% { opacity: var(--end, 0.6);             transform: translate(var(--tx), var(--ty)) scale(1.03); }
     }
 
     .bg_box .bg1 img {
@@ -1291,12 +1290,13 @@
         // 별빛 촤르르: 글자가 좌→우로 등장하는 흐름을 따라 글씨 위로 번지는 스파클
         function buildStarburst() {
             if (!starBurst) return;
-            const COUNT = reduceMotion ? 28 : 66;
-            // 따뜻한 금빛 / 살구빛 / 맑은 은빛
+            const COUNT = reduceMotion ? 18 : 40;
+            // 노란빛 위주로 따뜻하고 은은하게 (은빛은 살짝만)
             const PALETTES = [
-                { core: 'rgba(255, 243, 198, 0.95)', halo: 'rgba(255, 206, 116, 0.45)' },
-                { core: 'rgba(255, 248, 226, 0.95)', halo: 'rgba(255, 224, 158, 0.4)'  },
-                { core: 'rgba(232, 244, 255, 0.95)', halo: 'rgba(168, 206, 255, 0.4)'  }
+                { core: 'rgba(255, 234, 158, 0.85)', halo: 'rgba(255, 198,  92, 0.32)' }, // 노란빛
+                { core: 'rgba(255, 240, 180, 0.85)', halo: 'rgba(255, 210, 110, 0.30)' }, // 옅은 금빛
+                { core: 'rgba(255, 246, 206, 0.85)', halo: 'rgba(255, 224, 150, 0.28)' }, // 크림빛
+                { core: 'rgba(248, 248, 232, 0.82)', halo: 'rgba(226, 224, 196, 0.26)' }  // 거의 흰빛
             ];
             // 글씨가 차지하는 가로 폭 / 두 줄 세로 폭 (글자 등장 좌표와 맞춤)
             const SPAN_X = 560;   // 좌우 반폭
@@ -1309,16 +1309,16 @@
                 const fx = Math.random();                               // 0(왼쪽) → 1(오른쪽)
                 const tx = (fx * 2 - 1) * SPAN_X;
                 const ty = (Math.random() * 2 - 1) * SPAN_Y;
-                const hero = Math.random() < 0.34;                      // 큰 별 (글린트)
-                const size = hero ? (5 + Math.random() * 6) : (1.6 + Math.random() * 3.4);
-                const end = (hero ? 0.72 : 0.45) + Math.random() * 0.3;
-                const dur = 0.62 + Math.random() * 0.5;                 // 또르르 켜지는 짧은 등장
-                // x 위치에 비례한 딜레이 → 글씨와 함께 좌에서 우로 촤르르
-                const delay = SWEEP_START + fx * SWEEP_SPAN + Math.random() * 0.22;
-                const tw = 2.6 + Math.random() * 2.8;
+                const hero = Math.random() < 0.22;                      // 글린트 별을 줄여 차분하게
+                const size = hero ? (4 + Math.random() * 4) : (1.4 + Math.random() * 2.6);
+                const end = (hero ? 0.5 : 0.32) + Math.random() * 0.22; // 전체적으로 옅게
+                const dur = 0.7 + Math.random() * 0.5;                  // 부드럽게 켜짐
+                // x 위치에 비례한 딜레이 → 글씨와 함께 좌에서 우로 은은하게
+                const delay = SWEEP_START + fx * SWEEP_SPAN + Math.random() * 0.25;
+                const tw = 3.2 + Math.random() * 3;                     // 느릿한 깜빡임
                 const pal = PALETTES[(Math.random() * PALETTES.length) | 0];
                 const rot = (Math.random() * 90) | 0;
-                const glint = hero ? (0.55 + Math.random() * 0.35).toFixed(2) : '0';
+                const glint = hero ? (0.3 + Math.random() * 0.22).toFixed(2) : '0';
                 html += '<span class="spark" style="'
                     + '--tx:' + tx.toFixed(1) + 'px;'
                     + '--ty:' + ty.toFixed(1) + 'px;'
